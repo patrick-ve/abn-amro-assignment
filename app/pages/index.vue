@@ -3,6 +3,7 @@ import type { GroupedShows, Show } from '~/types/show'
 import { computed, ref } from 'vue'
 import Input from '~/components/Base/Input.vue'
 import GenreList from '~/components/GenreList.vue'
+import Hero from '~/components/Hero.vue'
 import SearchResults from '~/components/SearchResults.vue'
 
 const searchQuery = ref('')
@@ -10,6 +11,14 @@ const isLoading = ref(true)
 const error = ref<string | null>(null)
 const shows = ref<Show[]>([])
 const isSearching = computed(() => searchQuery.value.length > 0)
+
+// Get a random show for the hero section
+const randomShow = computed<Show | null>(() => {
+  if (!shows.value.length)
+    return null
+  const index = Math.floor(Math.random() * shows.value.length)
+  return shows.value[index] ?? null
+})
 
 // Group shows by genre
 const showsByGenre = computed<GroupedShows>(() => {
@@ -67,9 +76,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="min-h-screen bg-gray-50 dark:bg-gray-900">
-    <div class="container mx-auto px-4 py-8">
-      <!-- Search Bar -->
+  <main class="min-h-screen bg-black dark:bg-gray-900">
+    <Hero
+      v-if="!isLoading && !error && randomShow && !isSearching"
+      :show="randomShow"
+      @show-selected="handleShowSelected"
+    />
+
+    <div class="container mx-auto py-8">
       <div class="max-w-2xl mx-auto mb-8">
         <Input
           v-model="searchQuery"
@@ -88,7 +102,6 @@ onMounted(() => {
         </Input>
       </div>
 
-      <!-- Loading State -->
       <div
         v-if="isLoading"
         class="flex justify-center items-center min-h-[400px]"
@@ -96,7 +109,6 @@ onMounted(() => {
         <div class="animate-spin rounded-full h-12 w-12 border-4 border-gray-300 border-t-blue-600" />
       </div>
 
-      <!-- Error State -->
       <div
         v-else-if="error"
         class="text-center text-red-600 dark:text-red-400 min-h-[400px] flex items-center justify-center"
@@ -104,9 +116,7 @@ onMounted(() => {
         {{ error }}
       </div>
 
-      <!-- Content -->
       <div v-else>
-        <!-- Search Results -->
         <SearchResults
           v-if="isSearching"
           :shows="searchResults"
@@ -115,7 +125,6 @@ onMounted(() => {
           @show-selected="handleShowSelected"
         />
 
-        <!-- Genre Lists -->
         <div
           v-else
           class="space-y-8"
