@@ -23,6 +23,13 @@ function stripHtml(html: string) {
 const formattedSummary = computed(() => {
   return props.show.summary ? stripHtml(props.show.summary) : 'No summary available'
 })
+
+const networkInfo = computed(() => {
+  if (!props.show.network)
+    return 'Not available'
+
+  return `${props.show.network.name} (${props.show.network.country?.name || 'Unknown country'})`
+})
 </script>
 
 <template>
@@ -84,26 +91,46 @@ const formattedSummary = computed(() => {
               </span>
             </div>
 
-            <div class="flex items-center">
-              <span class="text-yellow-500 mr-2">★</span>
-              <span class="text-gray-700 dark:text-gray-300">{{ show.rating.average ?? 'N/A' }}</span>
+            <div class="flex items-center space-x-4">
+              <div class="flex items-center">
+                <span class="text-yellow-500 mr-2">★</span>
+                <span class="text-gray-700 dark:text-gray-300">{{ show.rating.average ?? 'N/A' }}</span>
+              </div>
+              <span class="text-gray-500">|</span>
+              <span class="text-gray-700 dark:text-gray-300">{{ show.type }}</span>
+              <span class="text-gray-500">|</span>
+              <span class="text-gray-700 dark:text-gray-300">{{ show.language }}</span>
             </div>
 
-            <div class="text-gray-600 dark:text-gray-400">
-              <p class="mb-2">
-                <strong>Network:</strong> {{ show.network?.name ?? 'Not available' }}
+            <div class="text-gray-600 dark:text-gray-400 space-y-2">
+              <p>
+                <strong>Network:</strong> {{ networkInfo }}
               </p>
-              <p class="mb-2">
+              <p>
                 <strong>Schedule:</strong> {{ show.schedule.time }} on {{ show.schedule.days.join(', ') }}
               </p>
-              <p class="mb-2">
+              <p>
+                <strong>Runtime:</strong> {{ show.runtime }} minutes
+              </p>
+              <p>
                 <strong>Status:</strong> {{ show.status }}
               </p>
-              <p class="mb-2">
+              <p>
                 <strong>Premiered:</strong> {{ show.premiered }}
               </p>
-              <p v-if="show.ended" class="mb-2">
+              <p v-if="show.ended">
                 <strong>Ended:</strong> {{ show.ended }}
+              </p>
+              <p v-if="show.officialSite">
+                <strong>Official Site:</strong>
+                <a
+                  :href="show.officialSite"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-blue-600 dark:text-blue-400 hover:underline"
+                >
+                  Visit Website
+                </a>
               </p>
             </div>
 
@@ -114,6 +141,17 @@ const formattedSummary = computed(() => {
               <p class="text-gray-600 dark:text-gray-400">
                 {{ formattedSummary }}
               </p>
+            </div>
+
+            <div v-if="show.externals.imdb" class="mt-4">
+              <a
+                :href="`https://www.imdb.com/title/${show.externals.imdb}`"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-black rounded-lg transition-colors duration-200"
+              >
+                View on IMDb
+              </a>
             </div>
           </div>
         </div>
