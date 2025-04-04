@@ -34,7 +34,7 @@ const networkInfo = computed(() => {
 
 <template>
   <article class="show-detail bg-white dark:bg-gray-800 min-h-screen">
-    <div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto py-8">
       <div class="flex justify-end mb-4">
         <button
           data-testid="close-button"
