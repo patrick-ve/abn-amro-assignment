@@ -38,4 +38,52 @@ describe('theHeader', () => {
     const logo = screen.getByAltText('ABNFlix Logo')
     expect(logo).toBeInTheDocument()
   })
+
+  it('renders the logo', () => {
+    const wrapper = mount(TheHeader)
+    const logo = wrapper.find('img[alt="ABNFlix Logo"]')
+    expect(logo.exists()).toBe(true)
+  })
+
+  it('renders the search button', () => {
+    const wrapper = mount(TheHeader)
+    const searchButton = wrapper.find('[data-testid="search-button"]')
+    expect(searchButton.exists()).toBe(true)
+  })
+
+  it('emits toggleSearch event when search button is clicked', async () => {
+    const wrapper = mount(TheHeader)
+    const searchButton = wrapper.find('[data-testid="search-button"]')
+
+    await searchButton.trigger('click')
+
+    expect(wrapper.emitted('toggleSearch')).toBeTruthy()
+    expect(wrapper.emitted('toggleSearch')).toHaveLength(1)
+  })
+
+  it('shows search input when isSearchActive is true', async () => {
+    const wrapper = mount(TheHeader, {
+      props: {
+        isSearchActive: true,
+      },
+    })
+
+    const searchInput = wrapper.find('[data-testid="search-input"]')
+    expect(searchInput.exists()).toBe(true)
+    expect(searchInput.attributes('placeholder')).toBe('Search shows...')
+  })
+
+  it('emits search event when input value changes', async () => {
+    const wrapper = mount(TheHeader, {
+      props: {
+        isSearchActive: true,
+      },
+    })
+
+    const searchInput = wrapper.find('[data-testid="search-input"]')
+    await searchInput.setValue('breaking bad')
+
+    expect(wrapper.emitted('search')).toBeTruthy()
+    expect(wrapper.emitted('search')?.[0]).toEqual(['breaking bad'])
+  })
 })
