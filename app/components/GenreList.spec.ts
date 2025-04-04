@@ -7,9 +7,16 @@ import GenreList from './GenreList.vue'
 // Create a longer list of shows to test scrolling
 const mockShows: Show[] = Array.from({ length: 10 }, (_, i) => ({
   id: i + 1,
+  url: `https://example.com/show-${i + 1}`,
   name: `Show ${i + 1}`,
+  type: 'Scripted',
+  language: 'English',
   genres: ['Drama', 'Crime'],
+  status: 'Ended',
+  runtime: 60,
+  averageRuntime: 60,
   rating: { average: 9.5 - i * 0.1 },
+  weight: 100,
   image: {
     medium: `https://example.com/show-${i + 1}.jpg`,
     original: `https://example.com/show-${i + 1}-original.jpg`,
@@ -17,8 +24,31 @@ const mockShows: Show[] = Array.from({ length: 10 }, (_, i) => ({
   summary: `<p>Summary for Show ${i + 1}</p>`,
   premiered: '2008-01-20',
   ended: '2013-09-29',
-  status: 'Ended',
+  officialSite: `https://example.com/show-${i + 1}-site`,
+  network: {
+    id: 1,
+    name: 'ABC',
+    country: {
+      name: 'United States',
+      code: 'US',
+      timezone: 'America/New_York',
+    },
+    officialSite: 'https://abc.com',
+  },
+  webChannel: null,
+  dvdCountry: null,
+  externals: {
+    tvrage: null,
+    thetvdb: null,
+    imdb: null,
+  },
   schedule: { time: '22:00', days: ['Sunday'] },
+  updated: 1631825853,
+  _links: {
+    self: {
+      href: `https://api.tvmaze.com/shows/${i + 1}`,
+    },
+  },
 }))
 
 describe('genreList', () => {
@@ -216,26 +246,48 @@ describe('genreList', () => {
     })
 
     it('hides scroll buttons when content fits container', async () => {
+      // Mock getBoundingClientRect to simulate a container that fits the content
+      Element.prototype.getBoundingClientRect = vi.fn().mockReturnValue({
+        width: 1000, // Make container wider than content
+        height: 200,
+        top: 0,
+        left: 0,
+        right: 1000,
+        bottom: 200,
+        x: 0,
+        y: 0,
+      })
+
       // Update scroll dimensions to simulate no overflow
       Object.defineProperties(Element.prototype, {
         scrollWidth: {
           configurable: true,
-          get: vi.fn().mockReturnValue(500),
+          get: vi.fn().mockReturnValue(800), // Content width less than container
         },
         clientWidth: {
           configurable: true,
-          get: vi.fn().mockReturnValue(500),
+          get: vi.fn().mockReturnValue(1000), // Container width more than content
+        },
+        scrollLeft: {
+          configurable: true,
+          get: vi.fn().mockReturnValue(0),
+          set: vi.fn(),
         },
       })
 
       const wrapper = mount(GenreList, {
         props: {
           genre: 'Drama',
-          shows: mockShows,
+          shows: mockShows.slice(0, 2), // Use fewer shows to ensure no overflow
         },
       })
 
       await wrapper.vm.$nextTick()
+      await new Promise(resolve => setTimeout(resolve, 0)) // Wait for all updates
+
+      // Trigger a scroll event to ensure buttons are updated
+      const container = wrapper.find('.shows-container')
+      await container.trigger('scroll')
 
       const leftButton = wrapper.find('button[aria-label="Scroll left"]')
       const rightButton = wrapper.find('button[aria-label="Scroll right"]')
