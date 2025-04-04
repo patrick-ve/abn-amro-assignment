@@ -122,7 +122,7 @@ onUnmounted(() => {
     :aria-label="`${genre} shows`"
     class="genre-list py-6"
   >
-    <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white px-4">
+    <h2 class="text-2xl font-bold mb-4 text-white/80 dark:text-white px-4">
       {{ genre }}
     </h2>
 

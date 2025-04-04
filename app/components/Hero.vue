@@ -12,8 +12,8 @@ defineProps<{
     class="relative bg-black text-white h-[50vh] overflow-hidden"
   >
     <div class="relative h-full container mx-auto px-4 py-8">
-      <div class="h-full flex items-start gap-8">
-        <div class="w-1/3 h-full relative">
+      <div class="h-full flex items-center gap-8">
+        <div class="w-1/4 h-full relative">
           <div v-if="show.image" class="h-full">
             <img
               :src="show.image.original"
@@ -29,7 +29,7 @@ defineProps<{
           </div>
         </div>
 
-        <div class="w-1/2">
+        <div class="w-3/4">
           <div class="flex items-center gap-2 mb-4">
             <div class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
               TOP 10
@@ -52,7 +52,7 @@ defineProps<{
             <span>{{ show.genres.join(' • ') }}</span>
           </div>
 
-          <div class="text-lg text-white/80 mb-8 max-w-xl" v-html="show.summary" />
+          <div class="text-lg text-white/80 mb-8 max-w-[70ch] text-pretty" v-html="show.summary" />
 
           <div class="flex items-center gap-4">
             <nuxt-link
