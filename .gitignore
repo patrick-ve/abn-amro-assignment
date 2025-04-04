@@ -1,0 +1,47 @@
+# Dependencies
+node_modules
+
+# Build and output
+dist
+.output
+.nuxt
+.nitro
+.cache
+.env
+.env.*
+!.env.example
+
+# Data and assets
+.data/
+public/assets/fonts
+tmp/
+
+# Logs and debugging
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Testing
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Vitest
+coverage/
+.vitest-cache/
+
+# File system
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Nuxt specific
+.nuxt-build-cache/
+.nuxt-storybook/
+.vercel/
+.netlify/
