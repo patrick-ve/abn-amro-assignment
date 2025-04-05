@@ -29,7 +29,7 @@ function handleShowClick(showId: number) {
 <template>
   <section
     aria-label="Search Results"
-    class="search-results py-6"
+    class="search-results"
   >
     <div
       v-if="isLoading"

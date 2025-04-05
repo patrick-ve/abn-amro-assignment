@@ -8,7 +8,6 @@ const emit = defineEmits<{
 
 const searchQuery = ref('')
 
-// Manual debounce for emitting
 let timeoutId: NodeJS.Timeout | null = null
 const debounceDelay = 500
 
@@ -21,7 +20,6 @@ watch(searchQuery, (newValue) => {
   }, debounceDelay)
 })
 
-// We need to clear the timeout on unmount
 onUnmounted(() => {
   if (timeoutId) {
     clearTimeout(timeoutId)
@@ -30,7 +28,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="max-w-2xl mx-auto mb-8">
+  <div class="max-w-2xl mx-auto">
     <Input
       v-model="searchQuery"
       type="search"
