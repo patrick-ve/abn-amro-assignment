@@ -95,7 +95,7 @@ describe('searchResults', () => {
         error: null,
       },
     })
-    const showCards = wrapper.findAllComponents({ name: 'ShowCard' })
+    const showCards = wrapper.findAllComponents({ name: 'SearchResultCard' })
     expect(showCards).toHaveLength(mockShows.length)
   })
 
@@ -118,10 +118,19 @@ describe('searchResults', () => {
         error: null,
       },
     })
-    const firstShowCard = wrapper.findComponent({ name: 'ShowCard' })
+    const firstShowCard = wrapper.findComponent({ name: 'SearchResultCard' })
+    expect(firstShowCard.exists()).toBe(true)
+
     await firstShowCard.trigger('click')
-    expect(wrapper.emitted('showSelected')).toBeTruthy()
-    expect(wrapper.emitted('showSelected')![0]).toEqual([mockShows[0].id])
+
+    const emittedEvent = wrapper.emitted('showSelected')
+    expect(emittedEvent).toBeTruthy()
+    if (emittedEvent) {
+      expect(emittedEvent).toHaveLength(1)
+      if (emittedEvent.length > 0) {
+        expect(emittedEvent[0]).toEqual([mockShows[0]?.id])
+      }
+    }
   })
 
   it('is accessible', () => {
@@ -143,8 +152,21 @@ describe('searchResults', () => {
         error: null,
       },
     })
-    const showCards = wrapper.findAllComponents({ name: 'ShowCard' })
-    expect(showCards[0].props('show').rating?.average).toBe(9.5)
-    expect(showCards[1].props('show').rating?.average).toBe(9.3)
+    const showCards = wrapper.findAllComponents({ name: 'SearchResultCard' })
+
+    expect(showCards.length).toBe(mockShows.length)
+    expect(showCards.length).toBe(2)
+
+    const props1 = showCards[0]!.props('show') as Show
+    const props2 = showCards[1]!.props('show') as Show
+
+    expect(props1).toBeDefined()
+    expect(props2).toBeDefined()
+
+    expect(props1.id).toBe(mockShows[0]?.id)
+    expect(props1.rating?.average ?? 0).toBe(9.5)
+
+    expect(props2.id).toBe(mockShows[1]?.id)
+    expect(props2.rating?.average ?? 0).toBe(9.3)
   })
 })

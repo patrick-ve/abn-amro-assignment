@@ -13,15 +13,13 @@ defineProps<{
     <!-- Adjusted image size for list view -->
     <div class="flex-shrink-0 w-20 h-30">
       <div class="aspect-[2/3] relative rounded overflow-hidden">
-        <template v-if="show.image">
-          <!-- Lazy load images in the list -->
-          <img
-            :src="show.image.medium"
-            :alt="`${show.name} poster`"
-            class="w-full h-full object-cover"
-            loading="lazy"
-          >
-        </template>
+        <img
+          v-if="show.image"
+          :src="show.image.medium"
+          :alt="`${show.name} poster`"
+          class="w-full h-full object-cover"
+          loading="lazy"
+        >
         <div
           v-else
           class="placeholder-image w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-center"
