@@ -4,6 +4,7 @@ import { navigateTo } from '#app'
 import { computed, onMounted, ref } from 'vue'
 import ErrorMessage from '~/components/Base/ErrorMessage.vue'
 import LoadingSpinner from '~/components/Base/LoadingSpinner.vue'
+import BaseModal from '~/components/Base/Modal.vue'
 import GenreList from '~/components/GenreList.vue'
 import Hero from '~/components/Hero.vue'
 import SearchContainer from '~/components/Search/SearchContainer.vue'
@@ -13,7 +14,7 @@ import TheHeader from '~/components/TheHeader.vue'
 const isLoading = ref(true)
 const error = ref<string | null>(null)
 const shows = ref<Show[]>([])
-const isSearchActive = ref(false)
+const isSearchModalOpen = ref(false)
 const searchResults = ref<Show[]>([])
 const isSearchLoading = ref(false)
 const searchError = ref<string | null>(null)
@@ -58,6 +59,8 @@ async function fetchShows() {
 async function handleSearch(query: string) {
   if (!query.trim()) {
     searchResults.value = []
+    searchError.value = null
+    isSearchLoading.value = false
     return
   }
 
@@ -83,31 +86,32 @@ async function handleSearch(query: string) {
       status: item.show.status || 'Unknown',
       schedule: item.show.schedule || { time: '', days: [] },
     }))
+    searchError.value = null
   }
   catch (err) {
     console.error('Search error:', err)
     searchError.value = 'Failed to fetch search results'
+    searchResults.value = []
   }
   finally {
     isSearchLoading.value = false
   }
 }
 
-// Toggle search mode
-function toggleSearch() {
-  isSearchActive.value = !isSearchActive.value
-  if (!isSearchActive.value) {
+function toggleSearchModal() {
+  isSearchModalOpen.value = !isSearchModalOpen.value
+  if (!isSearchModalOpen.value) {
     searchResults.value = []
     searchError.value = null
+    isSearchLoading.value = false
   }
 }
 
-// Handle show selection
 function handleShowSelected(showId: number) {
+  isSearchModalOpen.value = false
   navigateTo(`/shows/${showId}`)
 }
 
-// Fetch shows on component mount
 onMounted(() => {
   fetchShows()
 })
@@ -120,8 +124,8 @@ onMounted(() => {
         <button
           data-testid="search-button"
           class="p-2 rounded-full hover:bg-white/10 transition-colors"
-          :aria-label="isSearchActive ? 'Close search' : 'Open search'"
-          @click="toggleSearch"
+          :aria-label="isSearchModalOpen ? 'Close search modal' : 'Open search modal'"
+          @click="toggleSearchModal"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -142,46 +146,50 @@ onMounted(() => {
     </TheHeader>
 
     <Hero
-      v-if="!isLoading && !error && randomShow && !isSearchActive"
+      v-if="!isLoading && !error && randomShow"
       :show="randomShow"
       @show-selected="handleShowSelected"
     />
 
     <div class="container mx-auto py-8">
-      <SearchContainer
-        v-if="isSearchActive"
-        @search="handleSearch"
-      />
-
-      <LoadingSpinner v-if="isLoading || isSearchLoading" />
-
+      <LoadingSpinner v-if="isLoading" />
       <ErrorMessage
-        v-else-if="error || searchError"
-        :message="error || searchError || ''"
+        v-else-if="error"
+        :message="error"
       />
 
-      <div v-else>
+      <div
+        v-else
+        class="space-y-8"
+      >
+        <GenreList
+          v-for="(genreShows, genre) in showsByGenre"
+          :key="String(genre)"
+          :shows="genreShows"
+          :genre="String(genre)"
+          @show-selected="handleShowSelected"
+        />
+      </div>
+    </div>
+
+    <BaseModal v-model="isSearchModalOpen">
+      <template #search-bar>
+        <SearchContainer @search="handleSearch" />
+      </template>
+      <template #results>
+        <LoadingSpinner v-if="isSearchLoading" />
+        <ErrorMessage
+          v-else-if="searchError"
+          :message="searchError"
+        />
         <SearchResults
-          v-if="isSearchActive"
+          v-else
           :shows="searchResults"
           :is-loading="isSearchLoading"
           :error="searchError"
           @show-selected="handleShowSelected"
         />
-
-        <div
-          v-else
-          class="space-y-8"
-        >
-          <GenreList
-            v-for="(genreShows, genre) in showsByGenre"
-            :key="String(genre)"
-            :shows="genreShows"
-            :genre="String(genre)"
-            @show-selected="handleShowSelected"
-          />
-        </div>
-      </div>
-    </div>
+      </template>
+    </BaseModal>
   </main>
 </template>
