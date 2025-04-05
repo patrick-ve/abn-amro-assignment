@@ -1,9 +1,23 @@
 <script setup lang="ts">
 import type { Show } from '~/types/show'
 
-defineProps<{
+const props = defineProps<{
   show: Show
 }>()
+
+const shortenedSummary = computed(() => {
+  if (!props.show.summary)
+    return 'No summary available.'
+
+  const cleanSummary = props.show.summary.replace(/<[^>]*>/g, '')
+
+  const sentences = cleanSummary.match(/[^.!?]+[.!?]+/g) || []
+
+  const numSentences = Math.min(sentences.length, 3)
+  const truncated = sentences.slice(0, numSentences).join('')
+
+  return sentences.length > numSentences ? `${truncated}...` : truncated
+})
 </script>
 
 <template>
@@ -52,7 +66,9 @@ defineProps<{
             <span>{{ show.genres.join(' • ') }}</span>
           </div>
 
-          <div class="text-lg text-white/80 mb-8 max-w-[70ch] text-pretty" v-html="show.summary" />
+          <div class="text-lg text-white/80 mb-8 max-w-[70ch] text-pretty">
+            {{ shortenedSummary }}
+          </div>
 
           <div class="flex items-center gap-4">
             <nuxt-link
