@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Show } from '~/types/show'
 import { computed } from 'vue'
-import ShowCard from './ShowCard.vue'
+import SearchResultCard from './Search/SearchResultCard.vue'
 
 const props = defineProps<{
   isLoading: boolean
@@ -51,15 +51,16 @@ function handleShowClick(showId: number) {
     <template v-else>
       <div
         v-if="shows.length"
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 px-4"
+        class="flex flex-col space-y-4"
       >
-        <ShowCard
+        <SearchResultCard
           v-for="show in sortedShows"
           :key="show.id"
           :show="show"
           @click="handleShowClick(show.id)"
         />
       </div>
+
       <div
         v-else
         class="text-gray-500 dark:text-gray-400 text-center min-h-[200px] flex items-center justify-center"
