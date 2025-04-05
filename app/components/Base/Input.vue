@@ -34,10 +34,21 @@ function handleInput(event: Event) {
 
 const inputRef = ref<HTMLInputElement | null>(null)
 
+function clearAndFocus() {
+  emit('update:modelValue', '')
+  if (inputRef.value) {
+    inputRef.value.focus()
+  }
+}
+
 onMounted(() => {
   if (inputRef.value) {
     inputRef.value.focus()
   }
+})
+
+defineExpose({
+  clearAndFocus,
 })
 </script>
 
