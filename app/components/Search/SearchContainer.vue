@@ -22,6 +22,7 @@ watch(debouncedSearchQuery, (newValue) => {
       type="search"
       placeholder="Search shows by title, genre, or description"
       class="w-full"
+      data-testid="search-input"
     />
   </div>
 </template>
