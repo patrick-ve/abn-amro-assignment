@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Show } from '~/types/show'
+import { computed } from 'vue'
 
 const props = defineProps<{
   show: Show

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Show } from '~/types/show'
+import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import ShowCard from './ShowCard.vue'
 
 const props = defineProps<{

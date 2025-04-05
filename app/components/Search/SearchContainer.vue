@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useDebounce } from '@/composables/useDebounce'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import Input from '~/components/Base/Input.vue'
 
 const emit = defineEmits<{

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { GroupedShows, Show } from '@/types/show'
-import { computed, ref } from 'vue'
+import { navigateTo } from '#app'
+import { computed, onMounted, ref } from 'vue'
 import ErrorMessage from '~/components/Base/ErrorMessage.vue'
-import Input from '~/components/Base/Input.vue'
 import LoadingSpinner from '~/components/Base/LoadingSpinner.vue'
 import GenreList from '~/components/GenreList.vue'
 import Hero from '~/components/Hero.vue'
