@@ -27,12 +27,6 @@ const resizeObserver = ref<ResizeObserver | null>(null)
 const itemWidth = ref(0)
 const gap = 16 // 4 in Tailwind equals 16px
 
-const hasOverflow = computed(() => {
-  if (!showsContainer.value)
-    return false
-  return Math.round(showsContainer.value.scrollWidth) > Math.round(showsContainer.value.clientWidth)
-})
-
 function handleShowClick(showId: number) {
   emit('showSelected', showId)
 }
@@ -129,7 +123,7 @@ onUnmounted(() => {
 
     <div class="relative group">
       <button
-        v-show="hasOverflow && showLeftButton"
+        v-show="showLeftButton"
         class="absolute left-0 top-0 bottom-0 z-20 w-12 flex items-center justify-center bg-black/50 hover:bg-black/80 text-white rounded-r-lg transition-all duration-200 backdrop-blur-sm opacity-0 group-hover:opacity-100"
         :class="{ 'cursor-not-allowed opacity-0': !showLeftButton }"
         aria-label="Scroll left"
@@ -157,7 +151,7 @@ onUnmounted(() => {
         </div>
 
         <button
-          v-show="hasOverflow && showRightButton"
+          v-show="showRightButton"
           class="absolute right-0 top-0 bottom-0 z-20 w-12 flex items-center justify-center bg-black/50 hover:bg-black/80 text-white rounded-l-lg transition-all duration-200 backdrop-blur-sm opacity-0 group-hover:opacity-100"
           :class="{ 'cursor-not-allowed opacity-0': !showRightButton }"
           aria-label="Scroll right"
