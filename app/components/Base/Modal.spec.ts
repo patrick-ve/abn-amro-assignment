@@ -1,8 +1,10 @@
-import { fireEvent, render, screen } from '@testing-library/vue'
-import { describe, expect, it } from 'vitest'
+import { cleanup, fireEvent, render, screen } from '@testing-library/vue'
+import { afterEach, describe, expect, it } from 'vitest'
 import Modal from './Modal.vue'
 
 describe('modal', () => {
+  afterEach(cleanup)
+
   const slots = {
     'search-bar': '<input data-testid="search-input" />',
     'results': '<div data-testid="results-content">Results</div>',

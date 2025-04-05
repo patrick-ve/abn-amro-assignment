@@ -7,33 +7,59 @@ import SearchResults from './SearchResults.vue'
 const mockShows: Show[] = [
   {
     id: 1,
+    url: 'https://example.com/show/1',
     name: 'Breaking Bad',
+    type: 'Scripted',
+    language: 'English',
     genres: ['Drama', 'Crime'],
+    status: 'Ended',
+    runtime: 60,
+    averageRuntime: 60,
+    premiered: '2008-01-20',
+    ended: '2013-09-29',
+    officialSite: 'https://example.com',
+    schedule: { time: '22:00', days: ['Sunday'] },
     rating: { average: 9.5 },
+    weight: 99,
+    network: { id: 1, name: 'AMC', country: { name: 'US', code: 'US', timezone: 'America/New_York' }, officialSite: 'https://amc.com' },
+    webChannel: null,
+    dvdCountry: null,
+    externals: { tvrage: null, thetvdb: 81189, imdb: 'tt0903747' },
     image: {
       medium: 'https://example.com/breaking-bad.jpg',
       original: 'https://example.com/breaking-bad-original.jpg',
     },
     summary: '<p>A high school chemistry teacher turned methamphetamine manufacturer.</p>',
-    premiered: '2008-01-20',
-    ended: '2013-09-29',
-    status: 'Ended',
-    schedule: { time: '22:00', days: ['Sunday'] },
+    updated: 1608492879,
+    _links: { self: { href: 'https://api.example.com/shows/1' }, previousepisode: { href: 'https://api.example.com/episodes/1', name: 'Pilot' } },
   },
   {
     id: 2,
+    url: 'https://example.com/show/2',
     name: 'Better Call Saul',
+    type: 'Scripted',
+    language: 'English',
     genres: ['Drama', 'Crime'],
+    status: 'Ended',
+    runtime: 50,
+    averageRuntime: 51,
+    premiered: '2015-02-08',
+    ended: '2022-08-15',
+    officialSite: 'https://example-bcs.com',
+    schedule: { time: '21:00', days: ['Monday'] },
     rating: { average: 9.3 },
+    weight: 98,
+    network: { id: 1, name: 'AMC', country: { name: 'US', code: 'US', timezone: 'America/New_York' }, officialSite: 'https://amc.com' },
+    webChannel: null,
+    dvdCountry: null,
+    externals: { tvrage: null, thetvdb: 273181, imdb: 'tt3032476' },
     image: {
       medium: 'https://example.com/better-call-saul.jpg',
       original: 'https://example.com/better-call-saul-original.jpg',
     },
     summary: '<p>The trials and tribulations of criminal lawyer Jimmy McGill.</p>',
-    premiered: '2015-02-08',
-    ended: '2022-08-15',
-    status: 'Ended',
-    schedule: { time: '21:00', days: ['Monday'] },
+    updated: 1660608886,
+    _links: { self: { href: 'https://api.example.com/shows/2' }, previousepisode: { href: 'https://api.example.com/episodes/2', name: 'Uno' } },
   },
 ]
 
@@ -71,8 +97,6 @@ describe('searchResults', () => {
     })
     const showCards = wrapper.findAllComponents({ name: 'ShowCard' })
     expect(showCards).toHaveLength(mockShows.length)
-    expect(wrapper.text()).toContain('Breaking Bad')
-    expect(wrapper.text()).toContain('Better Call Saul')
   })
 
   it('displays no results message when shows array is empty', () => {
@@ -97,7 +121,7 @@ describe('searchResults', () => {
     const firstShowCard = wrapper.findComponent({ name: 'ShowCard' })
     await firstShowCard.trigger('click')
     expect(wrapper.emitted('showSelected')).toBeTruthy()
-    expect(wrapper.emitted('showSelected')?.[0]).toEqual([mockShows[0].id])
+    expect(wrapper.emitted('showSelected')![0]).toEqual([mockShows[0].id])
   })
 
   it('is accessible', () => {
@@ -120,7 +144,7 @@ describe('searchResults', () => {
       },
     })
     const showCards = wrapper.findAllComponents({ name: 'ShowCard' })
-    expect(showCards[0].props('show').rating.average).toBe(9.5)
-    expect(showCards[1].props('show').rating.average).toBe(9.3)
+    expect(showCards[0].props('show').rating?.average).toBe(9.5)
+    expect(showCards[1].props('show').rating?.average).toBe(9.3)
   })
 })

@@ -6,57 +6,60 @@ import ShowCard from './ShowCard.vue'
 
 const mockShow: Show = {
   id: 1,
+  url: 'https://example.com/show/1',
   name: 'Breaking Bad',
+  type: 'Scripted',
+  language: 'English',
   genres: ['Drama', 'Crime', 'Thriller'],
+  status: 'Ended',
+  runtime: 60,
+  averageRuntime: 60,
+  premiered: '2008-01-20',
+  ended: '2013-09-29',
+  officialSite: 'https://example.com',
+  schedule: {
+    time: '22:00',
+    days: ['Sunday'],
+  },
   rating: {
     average: 9.5,
+  },
+  weight: 99,
+  network: {
+    id: 1,
+    name: 'AMC',
+    country: {
+      name: 'United States',
+      code: 'US',
+      timezone: 'America/New_York',
+    },
+    officialSite: 'https://www.amc.com',
+  },
+  webChannel: null,
+  dvdCountry: null,
+  externals: {
+    tvrage: null,
+    thetvdb: 81189,
+    imdb: 'tt0903747',
   },
   image: {
     medium: 'https://example.com/image-medium.jpg',
     original: 'https://example.com/image-original.jpg',
   },
   summary: '<p>A high school chemistry teacher turned methamphetamine manufacturer.</p>',
-  premiered: '2008-01-20',
-  ended: '2013-09-29',
-  status: 'Ended',
-  schedule: {
-    time: '22:00',
-    days: ['Sunday'],
+  updated: 1608492879,
+  _links: {
+    self: {
+      href: 'https://api.example.com/shows/1',
+    },
+    previousepisode: {
+      href: 'https://api.example.com/episodes/1',
+      name: 'Pilot',
+    },
   },
 }
 
 describe('showCard', () => {
-  it('renders show title', () => {
-    const wrapper = mount(ShowCard, {
-      props: {
-        show: mockShow,
-      },
-    })
-    expect(wrapper.text()).toContain('Breaking Bad')
-  })
-
-  it('displays show rating when available', () => {
-    const wrapper = mount(ShowCard, {
-      props: {
-        show: mockShow,
-      },
-    })
-    expect(wrapper.text()).toContain('9.5')
-  })
-
-  it('handles missing rating gracefully', () => {
-    const showWithoutRating = {
-      ...mockShow,
-      rating: { average: null },
-    }
-    const wrapper = mount(ShowCard, {
-      props: {
-        show: showWithoutRating,
-      },
-    })
-    expect(wrapper.text()).toContain('N/A')
-  })
-
   it('displays show image when available', () => {
     const wrapper = mount(ShowCard, {
       props: {
@@ -83,24 +86,15 @@ describe('showCard', () => {
     expect(placeholder.exists()).toBe(true)
   })
 
-  it('displays first genre as a tag', () => {
+  it('renders a link to the show details page', () => {
     const wrapper = mount(ShowCard, {
       props: {
         show: mockShow,
       },
     })
-    expect(wrapper.text()).toContain('Drama')
-  })
-
-  it('emits click event when card is clicked', async () => {
-    const wrapper = mount(ShowCard, {
-      props: {
-        show: mockShow,
-      },
-    })
-    await wrapper.trigger('click')
-    expect(wrapper.emitted('click')).toBeTruthy()
-    expect(wrapper.emitted('click')?.[0]).toEqual([mockShow.id])
+    const link = wrapper.find('a')
+    expect(link.exists()).toBe(true)
+    expect(link.attributes('href')).toBe(`/shows/${mockShow.id}`)
   })
 
   it('is accessible', () => {

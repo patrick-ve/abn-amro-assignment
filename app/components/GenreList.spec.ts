@@ -2,6 +2,7 @@ import type { Show } from '~/types/show'
 import { render, screen } from '@testing-library/vue'
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { nextTick } from 'vue'
 import GenreList from './GenreList.vue'
 
 // Create a longer list of shows to test scrolling
@@ -246,54 +247,34 @@ describe('genreList', () => {
     })
 
     it('hides scroll buttons when content fits container', async () => {
-      // Mock getBoundingClientRect to simulate a container that fits the content
-      Element.prototype.getBoundingClientRect = vi.fn().mockReturnValue({
-        width: 1000, // Make container wider than content
-        height: 200,
-        top: 0,
-        left: 0,
-        right: 1000,
-        bottom: 200,
-        x: 0,
-        y: 0,
-      })
-
-      // Update scroll dimensions to simulate no overflow
+      // Ensure scrollWidth is <= clientWidth to simulate no overflow
       Object.defineProperties(Element.prototype, {
         scrollWidth: {
           configurable: true,
-          get: vi.fn().mockReturnValue(800), // Content width less than container
-        },
-        clientWidth: {
-          configurable: true,
-          get: vi.fn().mockReturnValue(1000), // Container width more than content
-        },
-        scrollLeft: {
-          configurable: true,
-          get: vi.fn().mockReturnValue(0),
-          set: vi.fn(),
+          get: vi.fn().mockReturnValue(500), // Same as clientWidth
         },
       })
 
-      const wrapper = mount(GenreList, {
+      const { container } = render(GenreList, {
         props: {
           genre: 'Drama',
           shows: mockShows.slice(0, 2), // Use fewer shows to ensure no overflow
         },
       })
 
-      await wrapper.vm.$nextTick()
-      await new Promise(resolve => setTimeout(resolve, 0)) // Wait for all updates
+      await nextTick() // Wait for Vue to process updates after render
 
-      // Trigger a scroll event to ensure buttons are updated
-      const container = wrapper.find('.shows-container')
-      await container.trigger('scroll')
+      // Check if buttons exist and assert their computed style
+      // Left button should not be found because showLeftButton is false initially
+      const leftButton = screen.queryByRole('button', { name: /Scroll left/i })
+      expect(leftButton).toBeNull()
 
-      const leftButton = wrapper.find('button[aria-label="Scroll left"]')
-      const rightButton = wrapper.find('button[aria-label="Scroll right"]')
+      // Find the right button using querySelector on the container
+      const rightButton = container.querySelector('button[aria-label="Scroll right"]')
 
-      expect(leftButton.exists()).toBe(false)
-      expect(rightButton.exists()).toBe(false)
+      // Assert that the button exists in the DOM but has display: none
+      expect(rightButton).not.toBeNull() // Check if the element exists
+      expect((rightButton as HTMLElement)?.style.display).toBe('none')
     })
   })
 })

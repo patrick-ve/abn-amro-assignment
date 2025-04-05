@@ -125,16 +125,16 @@ describe('hero', () => {
     expect(wrapper.text()).toContain('N/A')
   })
 
-  it('emits click event when "View Details" is clicked', async () => {
+  it('renders correct link for "More Info"', () => {
     const wrapper = mount(Hero, {
       props: {
         show: mockShow,
       },
     })
-    const button = wrapper.find('button')
-    await button.trigger('click')
-    expect(wrapper.emitted('showSelected')).toBeTruthy()
-    expect(wrapper.emitted('showSelected')?.[0]).toEqual([mockShow.id])
+    const link = wrapper.find('a')
+    expect(link.exists()).toBe(true)
+    expect(link.attributes('href')).toBe(`/shows/${mockShow.id}`)
+    expect(link.text()).toContain('More Info')
   })
 
   it('is accessible', () => {
@@ -145,6 +145,6 @@ describe('hero', () => {
     })
     expect(screen.getByRole('region', { name: 'Featured Show' })).toBeInTheDocument()
     expect(screen.getByRole('img')).toHaveAttribute('alt', `${mockShow.name} poster`)
-    expect(screen.getByRole('button')).toHaveAccessibleName('View Details')
+    expect(screen.getByRole('link', { name: /More Info/i })).toBeInTheDocument()
   })
 })

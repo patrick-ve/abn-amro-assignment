@@ -1,5 +1,5 @@
-import { fireEvent, render } from '@testing-library/vue'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { cleanup, fireEvent, render } from '@testing-library/vue'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
 import SearchContainer from './SearchContainer.vue'
 
@@ -9,6 +9,8 @@ describe('searchContainer', () => {
   beforeEach(() => {
     vi.clearAllTimers()
   })
+
+  afterEach(cleanup)
 
   it('renders the search input with correct placeholder', () => {
     const { getByTestId } = render(SearchContainer)
@@ -76,11 +78,23 @@ describe('searchContainer', () => {
     const { getByTestId, emitted } = render(SearchContainer)
     const input = getByTestId('search-input')
 
+    // First, set a non-empty value
+    await fireEvent.update(input, 'test')
+    // Advance time slightly, but less than debounce delay
+    vi.advanceTimersByTime(100)
+    await nextTick()
+
+    // Now, clear the input
     await fireEvent.update(input, '')
+    // Advance timer past the debounce delay
     vi.advanceTimersByTime(500)
+    await nextTick()
+    // Add another tick
     await nextTick()
 
     const result = emitted()
+    // Check that the event was emitted and the payload is ['']
+    expect(result.search).toBeTruthy()
     expect(result.search?.[0]).toEqual([''])
   })
 })
