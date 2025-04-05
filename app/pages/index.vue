@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import type { GroupedShows, Show } from '@/types/show'
-import { useDebounce } from '@/composables/useDebounce'
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
+import ErrorMessage from '~/components/Base/ErrorMessage.vue'
 import Input from '~/components/Base/Input.vue'
+import LoadingSpinner from '~/components/Base/LoadingSpinner.vue'
 import GenreList from '~/components/GenreList.vue'
 import Hero from '~/components/Hero.vue'
+import SearchContainer from '~/components/Search/SearchContainer.vue'
 import SearchResults from '~/components/SearchResults.vue'
 import TheHeader from '~/components/TheHeader.vue'
 
-const searchQuery = ref('')
-const debouncedSearchQuery = useDebounce(searchQuery, 500)
 const isLoading = ref(true)
 const error = ref<string | null>(null)
 const shows = ref<Show[]>([])
@@ -36,11 +36,6 @@ const showsByGenre = computed<GroupedShows>(() => {
     })
   })
   return grouped
-})
-
-// Watch the debounced value
-watch(debouncedSearchQuery, (newValue) => {
-  handleSearch(newValue)
 })
 
 async function fetchShows() {
@@ -102,7 +97,6 @@ async function handleSearch(query: string) {
 function toggleSearch() {
   isSearchActive.value = !isSearchActive.value
   if (!isSearchActive.value) {
-    searchQuery.value = ''
     searchResults.value = []
     searchError.value = null
   }
@@ -154,28 +148,17 @@ onMounted(() => {
     />
 
     <div class="container mx-auto py-8">
-      <div v-if="isSearchActive" class="max-w-2xl mx-auto mb-8">
-        <Input
-          v-model="searchQuery"
-          type="search"
-          placeholder="Search shows by title, genre, or description"
-          class="w-full"
-        />
-      </div>
+      <SearchContainer
+        v-if="isSearchActive"
+        @search="handleSearch"
+      />
 
-      <div
-        v-if="isLoading || isSearchLoading"
-        class="flex justify-center items-center min-h-[400px]"
-      >
-        <div class="animate-spin rounded-full h-12 w-12 border-4 border-gray-300 border-t-blue-600" />
-      </div>
+      <LoadingSpinner v-if="isLoading || isSearchLoading" />
 
-      <div
+      <ErrorMessage
         v-else-if="error || searchError"
-        class="text-center text-red-600 dark:text-red-400 min-h-[400px] flex items-center justify-center"
-      >
-        {{ error || searchError }}
-      </div>
+        :message="error || searchError || ''"
+      />
 
       <div v-else>
         <SearchResults
@@ -193,8 +176,8 @@ onMounted(() => {
           <GenreList
             v-for="(genreShows, genre) in showsByGenre"
             :key="String(genre)"
-            :genre="String(genre)"
             :shows="genreShows"
+            :genre="String(genre)"
             @show-selected="handleShowSelected"
           />
         </div>
