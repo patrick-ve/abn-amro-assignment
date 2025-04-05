@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { useDebounce } from '@/composables/useDebounce'
-import { ref, watch } from 'vue'
+import { onUnmounted, ref, watch } from 'vue'
 import Input from '~/components/Base/Input.vue'
 
 const emit = defineEmits<{
@@ -8,10 +7,25 @@ const emit = defineEmits<{
 }>()
 
 const searchQuery = ref('')
-const debouncedSearchQuery = useDebounce(searchQuery, 500)
 
-watch(debouncedSearchQuery, (newValue) => {
-  emit('search', newValue)
+// Manual debounce for emitting
+let timeoutId: NodeJS.Timeout | null = null
+const debounceDelay = 500
+
+watch(searchQuery, (newValue) => {
+  if (timeoutId) {
+    clearTimeout(timeoutId)
+  }
+  timeoutId = setTimeout(() => {
+    emit('search', newValue)
+  }, debounceDelay)
+})
+
+// We need to clear the timeout on unmount
+onUnmounted(() => {
+  if (timeoutId) {
+    clearTimeout(timeoutId)
+  }
 })
 </script>
 
