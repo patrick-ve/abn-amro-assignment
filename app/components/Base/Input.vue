@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 interface Props {
-  modelValue: string | number
+  modelValue: string
   type?: string
   placeholder?: string
   disabled?: boolean
@@ -11,6 +11,7 @@ interface Props {
   id?: string
   label?: string
   error?: string
+  dataTestid?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -30,6 +31,14 @@ function handleInput(event: Event) {
   const target = event.target as HTMLInputElement
   emit('update:modelValue', target.value)
 }
+
+const inputRef = ref<HTMLInputElement | null>(null)
+
+onMounted(() => {
+  if (inputRef.value) {
+    inputRef.value.focus()
+  }
+})
 </script>
 
 <template>
@@ -45,12 +54,14 @@ function handleInput(event: Event) {
     <div class="relative">
       <input
         :id="inputId"
+        ref="inputRef"
         :type="type"
         :value="modelValue"
         :placeholder="placeholder"
         :disabled="disabled"
         :required="required"
         :name="name"
+        :data-testid="dataTestid"
         class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" :class="[
           error
             ? 'border-red-500 focus:ring-red-500'
