@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import type { Show } from '~/types/show'
-import { ref } from 'vue'
+import { navigateTo, useHead } from '#app'
+import { onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import ShowDetail from '~/components/ShowDetail.vue'
 
 const route = useRoute()
-const showId = computed(() => Number(route.params.id))
+const showId = Number(route.params.id)
 const show = ref<Show | null>(null)
 const isLoading = ref(true)
 const error = ref<string | null>(null)
@@ -14,10 +16,13 @@ async function fetchShowDetails() {
   try {
     isLoading.value = true
     error.value = null
-    const response = await fetch(`https://api.tvmaze.com/shows/${showId.value}`)
-    if (!response.ok)
-      throw new Error('Failed to fetch show details')
-    show.value = await response.json()
+    const response = await $fetch<Show>(`https://api.tvmaze.com/shows/${showId}`)
+
+    if (!response) {
+      throw new Error('No response from API')
+    }
+
+    show.value = response
   }
   catch (err) {
     error.value = err instanceof Error ? err.message : 'An error occurred'
