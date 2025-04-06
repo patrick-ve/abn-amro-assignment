@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Show } from '~/types/show'
-import { navigateTo, useHead } from '#app'
+import { useHead } from '#app'
 import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ShowDetail from '~/components/ShowDetail.vue'
