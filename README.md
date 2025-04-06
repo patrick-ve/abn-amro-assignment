@@ -67,3 +67,11 @@ If you need to bypass the pre-commit hooks in exceptional cases (not recommended
 ```bash
 git commit -m "your message" --no-verify
 ```
+
+## E2E Testing
+
+This project uses Playwright for end-to-end testing. Before running the tests for the first time, you need to install the required browsers:
+
+```
+npx playwright install
+```
