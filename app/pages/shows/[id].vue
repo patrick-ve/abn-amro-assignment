@@ -2,10 +2,12 @@
 import type { Show } from '~/types/show'
 import { navigateTo, useHead } from '#app'
 import { onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import ShowDetail from '~/components/ShowDetail.vue'
+import TheHeader from '~/components/TheHeader.vue'
 
 const route = useRoute()
+const router = useRouter()
 const showId = Number(route.params.id)
 const show = ref<Show | null>(null)
 const isLoading = ref(true)
@@ -32,9 +34,9 @@ async function fetchShowDetails() {
   }
 }
 
-// Handle close button click
-function handleClose() {
-  navigateTo('/')
+// Handle back button click
+function goBack() {
+  router.back()
 }
 
 // Watch for route changes to refetch data
@@ -54,6 +56,31 @@ useHead(() => ({
 </script>
 
 <template>
+  <TheHeader>
+    <template #left>
+      <button
+        class="flex items-center text-white hover:text-gray-300 transition-colors cursor-pointer"
+        @click="goBack"
+      >
+        <svg
+          class="h-6 w-6 mr-2"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+        Back to shows overview
+      </button>
+    </template>
+  </TheHeader>
+
   <main class="min-h-screen bg-gray-50 dark:bg-gray-900">
     <!-- Loading State -->
     <div
@@ -74,9 +101,9 @@ useHead(() => ({
         </p>
         <button
           class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-          @click="handleClose"
+          @click="goBack"
         >
-          Back to Home
+          Back to shows overview
         </button>
       </div>
     </div>
@@ -85,7 +112,7 @@ useHead(() => ({
     <ShowDetail
       v-else-if="show"
       :show="show"
-      @close="handleClose"
+      @close="goBack"
     />
 
     <!-- Not Found State -->
@@ -99,9 +126,9 @@ useHead(() => ({
         </p>
         <button
           class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-          @click="handleClose"
+          @click="goBack"
         >
-          Back to Home
+          Back to shows overview
         </button>
       </div>
     </div>
