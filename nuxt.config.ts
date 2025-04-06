@@ -9,7 +9,7 @@ export default defineNuxtConfig({
 
   modules: ['@nuxtjs/tailwindcss'],
 
-  ssr: false,
+  ssr: !import.meta.dev,
 
   imports: {
     autoImport: false,
