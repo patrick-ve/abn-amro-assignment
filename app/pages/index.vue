@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { GroupedShows, Show } from '@/types/show'
-import { navigateTo } from '#app'
+import { navigateTo, useHead } from '#app'
 import { computed, onMounted, ref } from 'vue'
 import ErrorMessage from '~/components/Base/ErrorMessage.vue'
 import LoadingSpinner from '~/components/Base/LoadingSpinner.vue'
@@ -114,6 +114,10 @@ function handleShowSelected(showId: number) {
 
 onMounted(() => {
   fetchShows()
+})
+
+useHead({
+  title: 'Overview Page',
 })
 </script>
 
