@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import TheHeader from './TheHeader.vue'
+import TheHeader from '../TheHeader.vue'
 
 describe('theHeader', () => {
   it('renders the header component', () => {
