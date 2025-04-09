@@ -1,5 +1,6 @@
 import type { Show } from '~/types/show'
 import { expect, test } from '@playwright/test'
+import { expectNoA11yViolations } from '../plugins/a11y'
 
 // Mock data for a single show, taken from the index test mock data
 const mockShowDetail: Show = {
@@ -48,6 +49,10 @@ test.describe('Show Detail Page', () => {
     await page.waitForResponse(`https://api.tvmaze.com/shows/${mockShowDetail.id}?embed=cast`)
     // Wait for the page to potentially finish loading data
     await page.waitForLoadState('networkidle')
+  })
+
+  test('has no detectable a11y violations on load', async ({ page }) => {
+    await expectNoA11yViolations(page)
   })
 
   test('should display the show details correctly', async ({ page }) => {

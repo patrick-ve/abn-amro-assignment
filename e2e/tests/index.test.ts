@@ -1,5 +1,6 @@
 import type { Show } from '~/types/show'
 import { expect, test } from '@playwright/test'
+import { expectNoA11yViolations } from '../plugins/a11y' // Adjusted path
 
 // Mock data simulating the API response - now includes all required fields from Show type
 const mockShows: Show[] = [
@@ -106,6 +107,10 @@ test.describe('Index Page', () => {
     })
 
     await page.goto('/')
+  })
+
+  test('has no detectable a11y violations on load', async ({ page }) => {
+    await expectNoA11yViolations(page)
   })
 
   test('should display the hero section with a random show', async ({ page }) => {
