@@ -1,131 +1,113 @@
 import type { Ref } from 'vue'
-import type { SearchResultItem, Show, ShowDetails } from '~/types/show' // Import the types
-import { useFetch } from '#app' // Import useFetch
-import { ref } from 'vue'
+import type { SearchResultItem, Show, ShowDetails } from '~/types/show'
+import { useFetch } from '#app'
+import { computed, ref, unref } from 'vue'
 
 // --- Composable ---
 
 // Base URL for the TVmaze API
 const API_BASE_URL = 'https://api.tvmaze.com'
 
+// No longer exporting a single composable with shared state.
+// Exporting individual functions that encapsulate a useFetch call.
+
 /**
- * Composable for interacting with the TVmaze API using Nuxt 3's useFetch.
+ * Fetches a paginated list of all shows.
+ * Returns reactive refs for data, pending, error, and an execute function.
  */
-export function useTvMazeApi() {
-  // Reactive state variables with types
-  const shows: Ref<Show[]> = ref([]) // For storing the list of all shows
-  const showDetails: Ref<ShowDetails | null> = ref(null) // For storing details of a single show
-  const searchResults: Ref<Show[]> = ref([]) // For storing search results (just the show part)
-  const loading: Ref<boolean> = ref(false) // Loading indicator
-  const error: Ref<string | null> = ref(null) // Error handling
+export function useFetchAllShows(page: Ref<number> | number = 0) {
+  const url = computed(() => `/shows?page=${unref(page)}`)
+  const key = `shows-page-${unref(page)}`
 
-  // Common options for useFetch
-  const fetchOptions = {
+  // Use immediate: true for the initial load composable, makes sense for list view
+  const { data, pending, error, execute, refresh } = useFetch<Show[]>(url, {
     baseURL: API_BASE_URL,
-    onRequest() {
-      loading.value = true
-      error.value = null
-    },
-    onResponse() {
-      loading.value = false
-    },
-    onResponseError({ response }: any) { // Use 'any' for simplicity or define a specific error type
-      loading.value = false
-      error.value = `API Error: ${response.status} - ${response.statusText || 'Failed to fetch'}`
-      console.error('API Fetch Error:', response)
-    },
-    // Use lazy: false if you want to await the fetch directly in the function
-    // and ensure data is available immediately after the call.
-    // lazy: false,
-  }
+    key,
+    immediate: true, // Fetch immediately when composable is used
+    watch: false,
+    server: false,
+  })
 
-  /**
-   * Fetches a paginated list of all shows.
-   * @param page - The page number to fetch (defaults to 0).
-   */
-  const fetchAllShows = async (page: number = 0): Promise<void> => {
-    // Reset state specific to this fetch
-    shows.value = []
-    // Use spread operator to merge common options with specific ones
-    const { data: fetchedData, error: fetchError } = await useFetch<Show[]>(`/shows?page=${page}`, {
-      ...fetchOptions,
-      key: `shows-page-${page}`, // Unique key for caching
-    })
-
-    if (fetchError.value) {
-      // Error is already handled by onResponseError, but we ensure the state is cleared
-      shows.value = []
-      // Update the main error ref if not already set by hook
-      if (!error.value) {
-        error.value = fetchError.value?.message || 'Failed to fetch shows'
-      }
-    }
-    else {
-      shows.value = fetchedData.value ?? []
-    }
-    // Loading is handled by hooks
-  }
-
-  /**
-   * Fetches detailed information for a specific show, including cast.
-   * @param showId - The ID of the show to fetch.
-   */
-  const fetchShowDetails = async (showId: number | string): Promise<void> => {
-    showDetails.value = null
-    const { data: fetchedData, error: fetchError } = await useFetch<ShowDetails>(`/shows/${showId}?embed=cast`, {
-      ...fetchOptions,
-      key: `show-details-${showId}`, // Unique key
-    })
-
-    if (fetchError.value) {
-      showDetails.value = null
-      if (!error.value) {
-        error.value = fetchError.value?.message || 'Failed to fetch show details'
-      }
-    }
-    else {
-      showDetails.value = fetchedData.value ?? null
-    }
-  }
-
-  /**
-   * Searches for shows by name.
-   * @param query - The search term.
-   */
-  const searchShows = async (query: string): Promise<void> => {
-    searchResults.value = []
-    if (!query) {
-      return // No need to fetch if query is empty
-    }
-
-    // Encode the query parameter
-    const encodedQuery = encodeURIComponent(query)
-    const { data: fetchedData, error: fetchError } = await useFetch<SearchResultItem[]>(`/search/shows?q=${encodedQuery}`, {
-      ...fetchOptions,
-      key: `search-shows-${encodedQuery}`, // Unique key
-    })
-
-    if (fetchError.value) {
-      searchResults.value = []
-      if (!error.value) {
-        error.value = fetchError.value?.message || 'Failed to search shows'
-      }
-    }
-    else {
-      // We only want the 'show' part of each result item.
-      searchResults.value = fetchedData.value?.map(result => result.show) ?? []
-    }
-  }
-
-  // Expose reactive state and methods
   return {
-    shows,
-    showDetails,
+    shows: data,
+    loading: pending,
+    error,
+    fetchShows: execute, // Keep execute if manual trigger is needed
+    refreshShows: refresh,
+  }
+}
+
+/**
+ * Fetches detailed information for a specific show.
+ * Returns reactive refs for data, pending, error, and an execute/refresh function.
+ */
+export function useFetchShowDetails(showId: Ref<number | string> | number | string) {
+  // Create a reactive URL computed property based on the showId
+  const url = computed(() => `/shows/${unref(showId)}?embed=cast`)
+  const key = computed(() => `show-details-${unref(showId)}`)
+
+  // Use immediate: true and watch the key derived from showId
+  const { data, pending, error, execute, refresh } = useFetch<ShowDetails>(url, {
+    baseURL: API_BASE_URL,
+    key: key.value,
+    immediate: true, // Fetch immediately when ID is available
+    watch: [key], // Re-fetch when the key (derived from showId) changes
+    server: false,
+  })
+
+  return {
+    showDetails: data,
+    loading: pending,
+    error,
+    fetchDetails: execute, // Keep execute/refresh if manual trigger needed
+    refreshDetails: refresh,
+  }
+}
+
+/**
+ * Searches for shows by name using manual state and $fetch.
+ */
+export function useSearchShows() {
+  const searchResults: Ref<Show[]> = ref([])
+  const loading = ref(false)
+  const error: Ref<Error | null> = ref(null)
+
+  const search = async (query: string) => {
+    searchResults.value = [] // Reset previous results
+    if (!query || !query.trim()) {
+      loading.value = false
+      error.value = null
+      return // Don't search if query is empty
+    }
+
+    loading.value = true
+    error.value = null
+    const encodedQuery = encodeURIComponent(query.trim())
+    const url = `${API_BASE_URL}/search/shows?q=${encodedQuery}`
+
+    try {
+      // Use $fetch for direct request control
+      const response = await $fetch<SearchResultItem[]>(url)
+      searchResults.value = Array.isArray(response) ? response.map((item: SearchResultItem) => item.show) : []
+    }
+    catch (err: any) {
+      console.error('Search API Error:', err)
+      error.value = err // Store the actual error object
+      searchResults.value = [] // Clear results on error
+    }
+    finally {
+      loading.value = false
+    }
+  }
+
+  return {
     searchResults,
     loading,
     error,
-    fetchAllShows,
-    fetchShowDetails,
-    searchShows,
+    search, // Expose the search function
+    // No refresh function provided in this manual implementation
   }
 }
+
+// Remove the old useTvMazeApi export (if it existed as a single function export)
+// export function useTvMazeApi() { ... } // REMOVE THIS

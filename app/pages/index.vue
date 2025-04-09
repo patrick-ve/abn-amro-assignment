@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { GroupedShows, Show } from '@/types/show'
 import { navigateTo, useHead } from '#app'
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import ErrorMessage from '~/components/Base/ErrorMessage.vue'
 import LoadingSpinner from '~/components/Base/LoadingSpinner.vue'
 import BaseModal from '~/components/Base/Modal.vue'
@@ -10,14 +10,18 @@ import Hero from '~/components/Hero.vue'
 import SearchContainer from '~/components/Search/SearchContainer.vue'
 import SearchResults from '~/components/SearchResults.vue'
 import TheHeader from '~/components/TheHeader.vue'
+import { useFetchAllShows, useSearchShows } from '~/composables/useFetchShows'
 
-const isLoading = ref(true)
-const error = ref<string | null>(null)
-const shows = ref<Show[]>([])
 const isSearchModalOpen = ref(false)
-const searchResults = ref<Show[]>([])
-const isSearchLoading = ref(false)
-const searchError = ref<string | null>(null)
+
+// Fetch all shows (immediate: true by default in the composable)
+const { shows, loading: loadingAllShows, error: errorAllShows } = useFetchAllShows()
+
+// Setup search composable (uses manual state and $fetch internally)
+const { searchResults, loading: loadingSearch, error: errorSearch, search } = useSearchShows()
+
+// Ref for the search query input (could be passed down to SearchContainer)
+const currentSearchQuery = ref('') // Needed for debouncing or watching
 
 const randomShow = computed<Show | null>(() => {
   if (!shows.value.length)
@@ -39,71 +43,19 @@ const showsByGenre = computed<GroupedShows>(() => {
   return grouped
 })
 
-async function fetchShows() {
-  try {
-    isLoading.value = true
-    error.value = null
-    const response = await fetch('https://api.tvmaze.com/shows')
-    if (!response.ok)
-      throw new Error('Failed to fetch shows')
-    shows.value = await response.json()
-  }
-  catch (err) {
-    error.value = err instanceof Error ? err.message : 'An error occurred'
-  }
-  finally {
-    isLoading.value = false
-  }
-}
-
 async function handleSearch(query: string) {
-  if (!query.trim()) {
-    searchResults.value = []
-    searchError.value = null
-    isSearchLoading.value = false
-    return
-  }
-
-  isSearchLoading.value = true
-  searchError.value = null
-
-  try {
-    const response = await fetch(`https://api.tvmaze.com/search/shows?q=${encodeURIComponent(query)}`)
-    if (!response.ok) {
-      throw new Error('Network response was not ok')
-    }
-
-    const data = await response.json()
-    searchResults.value = data.map((item: { show: Show }) => ({
-      id: item.show.id,
-      name: item.show.name,
-      genres: item.show.genres || [],
-      rating: { average: item.show.rating?.average || null },
-      image: item.show.image || null,
-      summary: item.show.summary || '',
-      premiered: item.show.premiered || null,
-      ended: item.show.ended || null,
-      status: item.show.status || 'Unknown',
-      schedule: item.show.schedule || { time: '', days: [] },
-    }))
-    searchError.value = null
-  }
-  catch (err) {
-    console.error('Search error:', err)
-    searchError.value = 'Failed to fetch search results'
-    searchResults.value = []
-  }
-  finally {
-    isSearchLoading.value = false
-  }
+  currentSearchQuery.value = query // Update the ref
+  // The actual search execution can be triggered directly,
+  // or via a watcher on currentSearchQuery (e.g., with debounce)
+  await search(query) // Call the search function from the composable
 }
 
 function toggleSearchModal() {
   isSearchModalOpen.value = !isSearchModalOpen.value
   if (!isSearchModalOpen.value) {
     searchResults.value = []
-    searchError.value = null
-    isSearchLoading.value = false
+    currentSearchQuery.value = '' // Clear search query on close
+    // Clear search error/loading? The composable handles this internally on next search
   }
 }
 
@@ -111,10 +63,6 @@ function handleShowSelected(showId: number) {
   isSearchModalOpen.value = false
   navigateTo(`/shows/${showId}`)
 }
-
-onMounted(() => {
-  fetchShows()
-})
 
 useHead({
   title: 'Overview Page',
@@ -150,16 +98,16 @@ useHead({
     </TheHeader>
 
     <Hero
-      v-if="!isLoading && !error && randomShow"
+      v-if="!loadingAllShows && !errorAllShows && randomShow"
       :show="randomShow"
       @show-selected="handleShowSelected"
     />
 
     <div class="container mx-auto py-8">
-      <LoadingSpinner v-if="isLoading" />
+      <LoadingSpinner v-if="loadingAllShows && !shows?.length" />
       <ErrorMessage
-        v-else-if="error"
-        :message="error"
+        v-else-if="errorAllShows"
+        :message="errorAllShows?.message || 'Failed to load shows'"
       />
 
       <div
@@ -181,16 +129,16 @@ useHead({
         <SearchContainer @search="handleSearch" />
       </template>
       <template #results>
-        <LoadingSpinner v-if="isSearchLoading" />
+        <LoadingSpinner v-if="loadingSearch && isSearchModalOpen" />
         <ErrorMessage
-          v-else-if="searchError"
-          :message="searchError"
+          v-else-if="errorSearch && isSearchModalOpen"
+          :message="errorSearch?.message || 'Search failed'"
         />
         <SearchResults
           v-else
           :shows="searchResults"
-          :is-loading="isSearchLoading"
-          :error="searchError"
+          :is-loading="loadingSearch && isSearchModalOpen"
+          :error="errorSearch && isSearchModalOpen ? (errorSearch.message || 'Search Error') : null"
           @show-selected="handleShowSelected"
         />
       </template>

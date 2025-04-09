@@ -1,57 +1,28 @@
 <script setup lang="ts">
-import type { Show } from '~/types/show'
 import { useHead } from '#app'
-import { onMounted, ref, watch } from 'vue'
+import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ShowDetail from '~/components/ShowDetail.vue'
 import TheHeader from '~/components/TheHeader.vue'
+import { useFetchShowDetails } from '~/composables/useFetchShows'
 
 const route = useRoute()
 const router = useRouter()
-const showId = Number(route.params.id)
-const show = ref<Show | null>(null)
-const isLoading = ref(true)
-const error = ref<string | null>(null)
 
-// Fetch show details from the API
-async function fetchShowDetails() {
-  try {
-    isLoading.value = true
-    error.value = null
-    const response = await $fetch<Show>(`https://api.tvmaze.com/shows/${showId}`)
+// Reactive ref for the show ID from the route param
+const showId = computed(() => route.params.id)
 
-    if (!response) {
-      throw new Error('No response from API')
-    }
-
-    show.value = response
-  }
-  catch (err) {
-    error.value = err instanceof Error ? err.message : 'An error occurred'
-  }
-  finally {
-    isLoading.value = false
-  }
-}
+// Use the specific composable. It fetches immediately when showId is valid.
+const { showDetails, loading, error } = useFetchShowDetails(showId)
 
 // Handle back button click
 function goBack() {
   router.back()
 }
 
-// Watch for route changes to refetch data
-watch(() => route.params.id, () => {
-  fetchShowDetails()
-})
-
-// Fetch show details on component mount
-onMounted(() => {
-  fetchShowDetails()
-})
-
-// Set page title
+// Update page title based on composable state
 useHead(() => ({
-  title: show.value ? `${show.value.name} - TV Shows` : 'Loading...',
+  title: showDetails.value ? `${showDetails.value.name} - TV Shows` : (loading.value ? 'Loading...' : 'Show Details'),
 }))
 </script>
 
@@ -84,7 +55,7 @@ useHead(() => ({
   <main class="min-h-screen bg-gray-50 dark:bg-gray-900">
     <!-- Loading State -->
     <div
-      v-if="isLoading"
+      v-if="loading"
       class="flex justify-center items-center min-h-screen"
     >
       <div class="animate-spin rounded-full h-12 w-12 border-4 border-gray-300 border-t-blue-600" />
@@ -110,8 +81,8 @@ useHead(() => ({
 
     <!-- Show Details -->
     <ShowDetail
-      v-else-if="show"
-      :show="show"
+      v-else-if="showDetails"
+      :show="showDetails"
       @close="goBack"
     />
 
