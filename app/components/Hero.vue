@@ -23,6 +23,7 @@ const shortenedSummary = computed(() => {
 
 <template>
   <section
+    data-testid="hero-section"
     aria-label="Featured Show"
     class="relative bg-black text-white h-[50vh] overflow-hidden"
   >

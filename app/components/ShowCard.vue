@@ -8,6 +8,7 @@ defineProps<{
 
 <template>
   <article
+    :data-testid="`show-card-${show.id}`"
     class="show-card relative rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer bg-white dark:bg-gray-800"
   >
     <nuxt-link :to="`/shows/${show.id}`">

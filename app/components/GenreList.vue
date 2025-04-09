@@ -114,6 +114,7 @@ onUnmounted(() => {
 
 <template>
   <section
+    :data-testid="`genre-list-${genre}`"
     :aria-label="`${genre} shows`"
     class="genre-list py-6"
   >

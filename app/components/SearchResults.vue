@@ -28,6 +28,7 @@ function handleShowClick(showId: number) {
 
 <template>
   <section
+    data-testid="search-results"
     aria-label="Search Results"
     class="search-results"
   >

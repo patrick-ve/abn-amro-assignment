@@ -12,6 +12,7 @@ function closeModal() {
   <Transition name="modal-fade">
     <div
       v-if="modelValue"
+      data-testid="base-modal"
       class="fixed inset-0 z-50 flex items-start justify-center p-4 pt-[10vh] bg-black/70 backdrop-blur-sm"
       aria-modal="true"
       role="dialog"
