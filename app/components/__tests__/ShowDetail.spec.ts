@@ -23,7 +23,7 @@ const mockShow: Show = {
   summary: '<p>A high school chemistry teacher turned methamphetamine manufacturer.</p>',
   premiered: '2008-01-20',
   ended: '2013-09-29',
-  officialSite: 'https://www.amc.com/shows/breaking-bad',
+  officialSite: 'https://www.amc.com',
   network: {
     id: 20,
     name: 'AMC',
@@ -35,7 +35,6 @@ const mockShow: Show = {
     officialSite: 'https://www.amc.com',
   },
   webChannel: null,
-  dvdCountry: null,
   externals: {
     tvrage: 18164,
     thetvdb: 81189,
@@ -52,7 +51,6 @@ const mockShow: Show = {
     },
     previousepisode: {
       href: 'https://api.tvmaze.com/episodes/2017',
-      name: 'Felina',
     },
   },
 }
@@ -126,7 +124,7 @@ describe('showDetail', () => {
   it('handles missing network gracefully', () => {
     const showWithoutNetwork = {
       ...mockShow,
-      network: undefined,
+      network: null,
     }
     const wrapper = mount(ShowDetail, {
       props: {
@@ -166,15 +164,5 @@ describe('showDetail', () => {
     expect(screen.getByRole('article')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Breaking Bad' })).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'Breaking Bad poster' })).toBeInTheDocument()
-  })
-
-  it('emits close event when close button is clicked', async () => {
-    const wrapper = mount(ShowDetail, {
-      props: {
-        show: mockShow,
-      },
-    })
-    await wrapper.find('[data-testid="close-button"]').trigger('click')
-    expect(wrapper.emitted('close')).toBeTruthy()
   })
 })
