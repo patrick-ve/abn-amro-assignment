@@ -1,12 +1,15 @@
 import type { Ref } from 'vue'
 import type { SearchResultItem, Show, ShowDetails } from '~/types/show'
 import { useFetch } from '#app'
-import { computed, ref, unref } from 'vue'
+import { computed, ref, unref, watch } from 'vue'
 
 // --- Composable ---
 
 // Base URL for the TVmaze API
 const API_BASE_URL = 'https://api.tvmaze.com'
+
+// Simple cache for basic Show info, keyed by show ID
+const allShowsCache = ref<Record<number, Show>>({})
 
 // No longer exporting a single composable with shared state.
 // Exporting individual functions that encapsulate a useFetch call.
@@ -27,6 +30,17 @@ export function useFetchAllShows(page: Ref<number> | number = 0) {
     watch: false,
     server: false,
   })
+
+  // Watch the fetched data and update the cache
+  watch(data, (newShows) => {
+    if (newShows) {
+      newShows.forEach((show) => {
+        if (show && show.id) { // Ensure show and id are valid
+          allShowsCache.value[show.id] = show
+        }
+      })
+    }
+  }, { immediate: true }) // Run immediately to cache initial data if available
 
   return {
     shows: data,
@@ -109,5 +123,9 @@ export function useSearchShows() {
   }
 }
 
-// Remove the old useTvMazeApi export (if it existed as a single function export)
-// export function useTvMazeApi() { ... } // REMOVE THIS
+/**
+ * Retrieves basic show information from the cache if available.
+ */
+export function getCachedShowById(id: number): Show | undefined {
+  return allShowsCache.value[id]
+}

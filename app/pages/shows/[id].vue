@@ -4,15 +4,25 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ShowDetail from '~/components/ShowDetail.vue'
 import TheHeader from '~/components/TheHeader.vue'
-import { useFetchShowDetails } from '~/composables/useFetchShows'
+import { getCachedShowById, useFetchShowDetails } from '~/composables/useFetchShows'
 
 const route = useRoute()
 const router = useRouter()
 
 // Reactive ref for the show ID from the route param
-const showId = computed(() => route.params.id)
+const showId = computed(() => {
+  const id = route.params.id
+  // Ensure it's a number or return undefined/null if invalid
+  return typeof id === 'string' ? Number.parseInt(id, 10) : (typeof id === 'number' ? id : undefined)
+})
 
-// Use the specific composable. It fetches immediately when showId is valid.
+// Attempt to get the basic show info from cache immediately
+const cachedShow = computed(() => {
+  const id = showId.value
+  return id !== undefined ? getCachedShowById(id) : undefined
+})
+
+// Fetch full details. This will still run.
 const { showDetails, loading, error } = useFetchShowDetails(showId)
 
 // Handle back button click
@@ -20,10 +30,13 @@ function goBack() {
   router.back()
 }
 
-// Update page title based on composable state
-useHead(() => ({
-  title: showDetails.value ? `${showDetails.value.name} - TV Shows` : (loading.value ? 'Loading...' : 'Show Details'),
-}))
+// Update page title using cached info first, then full details
+useHead(() => {
+  const titleName = showDetails.value?.name ?? cachedShow.value?.name
+  return {
+    title: titleName ? `${titleName} - TV Shows` : (loading.value ? 'Loading...' : 'Show Details'),
+  }
+})
 </script>
 
 <template>
