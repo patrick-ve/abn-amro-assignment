@@ -14,4 +14,12 @@ export default defineNuxtConfig({
   imports: {
     autoImport: false,
   },
+
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: 'en',
+      },
+    },
+  },
 })
