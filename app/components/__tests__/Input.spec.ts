@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import Input from './Input.vue'
+import Input from '../Base/Input.vue'
 
 describe('input', () => {
   it('renders with slot content', () => {

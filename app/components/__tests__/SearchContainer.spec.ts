@@ -1,7 +1,7 @@
 import { cleanup, fireEvent, render } from '@testing-library/vue'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
-import SearchContainer from './SearchContainer.vue'
+import SearchContainer from '../Search/SearchContainer.vue'
 
 vi.useFakeTimers()
 

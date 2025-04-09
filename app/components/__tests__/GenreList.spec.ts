@@ -1,9 +1,9 @@
-import type { Show } from '~/types/show'
+import type { Show } from '../../types/show'
 import { render, screen } from '@testing-library/vue'
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
-import GenreList from './GenreList.vue'
+import GenreList from '../GenreList.vue'
 
 // Create a longer list of shows to test scrolling
 const mockShows: Show[] = Array.from({ length: 10 }, (_, i) => ({

@@ -1,7 +1,7 @@
-import type { Show } from '~/types/show'
+import type { Show } from '../../types/show'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import SearchResultCard from './SearchResultCard.vue'
+import SearchResultCard from '../Search/SearchResultCard.vue'
 
 // Mock the NuxtImage component if needed, or configure Vitest to stub it globally
 // For simplicity, we'll assume basic rendering or use a simple img tag here.

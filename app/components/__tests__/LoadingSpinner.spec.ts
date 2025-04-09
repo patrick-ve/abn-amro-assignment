@@ -1,6 +1,6 @@
 import { render } from '@testing-library/vue'
 import { describe, expect, it } from 'vitest'
-import LoadingSpinner from './LoadingSpinner.vue'
+import LoadingSpinner from '../Base/LoadingSpinner.vue'
 
 describe('loadingSpinner', () => {
   it('renders the loading spinner with correct styles', () => {

@@ -1,6 +1,6 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/vue'
 import { afterEach, describe, expect, it } from 'vitest'
-import Modal from './Modal.vue'
+import Modal from '../Base/Modal.vue'
 
 describe('modal', () => {
   afterEach(cleanup)

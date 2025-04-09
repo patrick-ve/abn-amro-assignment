@@ -1,6 +1,6 @@
 import { render } from '@testing-library/vue'
 import { describe, expect, it } from 'vitest'
-import ErrorMessage from './ErrorMessage.vue'
+import ErrorMessage from '../Base/ErrorMessage.vue'
 
 describe('errorMessage', () => {
   it('renders the error message correctly', () => {

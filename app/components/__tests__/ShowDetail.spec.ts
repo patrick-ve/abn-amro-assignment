@@ -1,8 +1,8 @@
-import type { Show } from '~/types/show'
+import type { Show } from '../../types/show'
 import { render, screen } from '@testing-library/vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import ShowDetail from './ShowDetail.vue'
+import ShowDetail from '../ShowDetail.vue'
 
 const mockShow: Show = {
   id: 1,
