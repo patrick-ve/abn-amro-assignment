@@ -107,7 +107,7 @@ const networkInfo = computed(() => {
                   :href="show.officialSite"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-blue-400 hover:text-blue-300 hover:underline transition-colors"
+                  class="text-blue-500 underline hover:text-blue-400 transition-colors"
                 >
                   Visit Website
                 </a>

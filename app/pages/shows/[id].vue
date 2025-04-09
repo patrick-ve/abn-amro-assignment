@@ -52,7 +52,7 @@ useHead(() => ({
     </template>
   </TheHeader>
 
-  <main class="min-h-screen bg-gray-50 dark:bg-gray-900">
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
     <!-- Loading State -->
     <div
       v-if="loading"
@@ -103,5 +103,5 @@ useHead(() => ({
         </button>
       </div>
     </div>
-  </main>
+  </div>
 </template>

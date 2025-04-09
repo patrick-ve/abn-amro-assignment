@@ -70,7 +70,7 @@ useHead({
 </script>
 
 <template>
-  <main class="min-h-screen bg-black dark:bg-gray-900">
+  <div class="min-h-screen bg-black dark:bg-gray-900">
     <TheHeader>
       <template #right>
         <button
@@ -104,7 +104,12 @@ useHead({
     />
 
     <div class="container mx-auto py-8">
+      <h1 class="text-2xl font-bold text-white mb-4">
+        Movie Overview
+      </h1>
+
       <LoadingSpinner v-if="loadingAllShows && !shows?.length" />
+
       <ErrorMessage
         v-else-if="errorAllShows"
         :message="errorAllShows?.message || 'Failed to load shows'"
@@ -143,5 +148,5 @@ useHead({
         />
       </template>
     </BaseModal>
-  </main>
+  </div>
 </template>
