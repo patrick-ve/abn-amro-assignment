@@ -1,20 +1,20 @@
-# ABN AMRO Assignment
+# ABN AMRO Assignment: "ABNFLIX" 🎬
 
-## Development Setup
+## Development Setup 🛠️
 
-### Prerequisites
+### Prerequisites ✅
 
 - Node.js v22.14.0 (as specified in `.nvmrc`)
 - npm
 
-### Installation
+### Installation 📦
 
 ```bash
 # Install dependencies
 npm install
 ```
 
-### Development Commands
+### Development Commands ▶️
 
 ```bash
 # Start development server with hot-reload
@@ -33,9 +33,20 @@ npm run lint
 npm run typecheck
 ```
 
-## Git Workflow
+## Application Structure (`app/`) 📁
 
-### Pre-commit Hooks
+The `app/` directory contains the core of the Nuxt 3 application, following standard conventions:
+
+- **`app.vue`**: 🚪 The main entry point for your application's layout and routing.
+- **`components/`**: 🧱 Contains reusable Vue components. Components in this directory are auto-imported by Nuxt.
+- **`composables/`**: 🎣 Stores reusable Vue Composition API functions (composables). These are also auto-imported.
+- **`layouts/`**: 🖼️ Defines different page layouts for your application (e.g., default, authenticated).
+- **`pages/`**: 📄 Contains your application's views and routes. Nuxt automatically generates routes based on the file structure here.
+- **`types/`**: 🏷️ Holds TypeScript type definitions specific to your application.
+
+## Git Workflow 🔄
+
+### Pre-commit Hooks 🔒
 
 This project uses Husky and lint-staged to enforce code quality checks before each commit. The following checks run automatically on staged files when you attempt to commit:
 
@@ -44,7 +55,7 @@ This project uses Husky and lint-staged to enforce code quality checks before ea
 
 If any of these checks fail, your commit will be prevented until you fix the issues.
 
-### Making Changes
+### Making Changes ✨
 
 1.  Make your changes in your feature branch.
 2.  Stage your changes: `git add .`
@@ -52,9 +63,9 @@ If any of these checks fail, your commit will be prevented until you fix the iss
     - Pre-commit hooks will automatically run on staged files.
     - If checks pass, your commit will complete.
     - If checks fail, fix the issues and try committing again.
-4.  Push your changes: `git push`
+4.  Push your changes: `git push` 🚀
 
-### Troubleshooting
+### Troubleshooting ❓
 
 If you need to bypass the pre-commit hooks in exceptional cases (not recommended), you can use:
 
@@ -62,7 +73,7 @@ If you need to bypass the pre-commit hooks in exceptional cases (not recommended
 git commit -m "your message" --no-verify
 ```
 
-## Unit Testing (Vitest)
+## Unit Testing (Vitest) 🧪
 
 This project uses [Vitest](https://vitest.dev/) for unit testing, primarily focused on testing individual Vue components within a simulated Nuxt environment.
 
@@ -84,7 +95,7 @@ npm run unit:ui
 npm run unit:coverage
 ```
 
-## E2E Testing (Playwright)
+## E2E Testing (Playwright) 🤖
 
 This project uses [Playwright](https://playwright.dev/) for end-to-end testing. E2E tests simulate real user interactions across different browsers to verify application flows and ensure accessibility compliance using `axe-core`.
 
