@@ -42,7 +42,6 @@ export interface Links {
   nextepisode?: { href: string }
 }
 
-// Basic Show structure (used in lists and search results)
 export interface Show {
   id: number
   url: string
@@ -51,24 +50,23 @@ export interface Show {
   language: string
   genres: string[]
   status: string
-  runtime: number | null // Updated from number
-  averageRuntime: number | null // Updated from number
+  runtime: number | null
+  averageRuntime: number | null
   premiered: string | null
   ended: string | null
   officialSite: string | null
-  schedule: Schedule // Use interface
-  rating: Rating // Use interface
+  schedule: Schedule
+  rating: Rating
   weight: number
-  network: Network | null // Use interface
-  webChannel: WebChannel | null // Use interface
-  externals: Externals // Use interface
-  image: Image | null // Use interface
+  network: Network | null
+  webChannel: WebChannel | null
+  externals: Externals
+  image: Image | null
   summary: string | null
   updated: number
-  _links: Links // Use interface
+  _links: Links
 }
 
-// Cast Member structure
 export interface Person {
   id: number
   url: string
@@ -77,7 +75,7 @@ export interface Person {
   birthday: string | null
   deathday: string | null
   gender: string | null
-  image: Image | null // Use interface
+  image: Image | null
   updated: number
   _links: { self: { href: string } }
 }
@@ -86,7 +84,7 @@ export interface Character {
   id: number
   url: string
   name: string
-  image: Image | null // Use interface
+  image: Image | null
   _links: { self: { href: string } }
 }
 
@@ -97,21 +95,17 @@ export interface CastMember {
   voice: boolean
 }
 
-// Show Details structure (extends Show and adds embedded cast)
 export interface ShowDetails extends Show {
   _embedded?: {
     cast?: CastMember[]
-    // Add other potential embedded types like episodes if needed later
   }
 }
 
-// Structure for the search endpoint response item
 export interface SearchResultItem {
   score: number
   show: Show
 }
 
-// Keep existing GroupedShows interface
 export interface GroupedShows {
   [genre: string]: Show[]
 }
