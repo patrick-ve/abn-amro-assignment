@@ -17,6 +17,7 @@ function closeModal() {
       aria-modal="true"
       role="dialog"
       @click.self="closeModal"
+      @keydown.esc="closeModal"
     >
       <div class="w-full max-w-2xl overflow-hidden bg-gray-100 rounded-lg shadow-xl dark:bg-gray-800">
         <div class="p-4 border-b border-gray-200 dark:border-gray-700">
