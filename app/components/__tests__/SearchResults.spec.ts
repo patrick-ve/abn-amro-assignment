@@ -2,7 +2,7 @@ import type { Show } from '../../types/show'
 import { render, screen } from '@testing-library/vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import SearchResults from '../SearchResults.vue'
+import SearchResults from '../Search/List.vue'
 
 const mockShows: Show[] = [
   {

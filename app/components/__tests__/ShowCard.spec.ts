@@ -2,7 +2,7 @@ import type { Show } from '../../types/show'
 import { render, screen } from '@testing-library/vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import ShowCard from '../ShowCard.vue'
+import ShowCard from '../Show/Card.vue'
 
 const mockShow: Show = {
   id: 1,
@@ -36,7 +36,6 @@ const mockShow: Show = {
     officialSite: 'https://www.amc.com',
   },
   webChannel: null,
-  dvdCountry: null,
   externals: {
     tvrage: null,
     thetvdb: 81189,
@@ -54,7 +53,6 @@ const mockShow: Show = {
     },
     previousepisode: {
       href: 'https://api.example.com/episodes/1',
-      name: 'Pilot',
     },
   },
 }
