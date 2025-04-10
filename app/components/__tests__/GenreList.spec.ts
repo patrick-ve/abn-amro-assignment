@@ -5,7 +5,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
 import GenreList from '../GenreList.vue'
 
-// Create a longer list of shows to test scrolling
 const mockShows: Show[] = Array.from({ length: 10 }, (_, i) => ({
   id: i + 1,
   url: `https://example.com/show-${i + 1}`,
@@ -54,7 +53,6 @@ const mockShows: Show[] = Array.from({ length: 10 }, (_, i) => ({
 
 describe('genreList', () => {
   beforeEach(() => {
-    // Mock ResizeObserver
     const mockResizeObserver = vi.fn(() => ({
       observe: vi.fn(),
       unobserve: vi.fn(),
@@ -62,7 +60,6 @@ describe('genreList', () => {
     }))
     vi.stubGlobal('ResizeObserver', mockResizeObserver)
 
-    // Mock Element.prototype.scrollTo
     Element.prototype.scrollTo = vi.fn()
   })
 
@@ -145,7 +142,6 @@ describe('genreList', () => {
 
   describe('scroll functionality', () => {
     beforeEach(() => {
-      // Mock getBoundingClientRect for scroll container
       Element.prototype.getBoundingClientRect = vi.fn().mockReturnValue({
         width: 500,
         height: 200,
@@ -157,7 +153,6 @@ describe('genreList', () => {
         y: 0,
       })
 
-      // Mock scroll properties
       Object.defineProperties(Element.prototype, {
         scrollWidth: {
           configurable: true,
@@ -203,7 +198,6 @@ describe('genreList', () => {
     })
 
     it('shows left scroll button after scrolling right', async () => {
-      // Update scrollLeft mock for this test
       Object.defineProperty(Element.prototype, 'scrollLeft', {
         configurable: true,
         get: vi.fn().mockReturnValue(100),
@@ -247,33 +241,28 @@ describe('genreList', () => {
     })
 
     it('hides scroll buttons when content fits container', async () => {
-      // Ensure scrollWidth is <= clientWidth to simulate no overflow
       Object.defineProperties(Element.prototype, {
         scrollWidth: {
           configurable: true,
-          get: vi.fn().mockReturnValue(500), // Same as clientWidth
+          get: vi.fn().mockReturnValue(500),
         },
       })
 
       const { container } = render(GenreList, {
         props: {
           genre: 'Drama',
-          shows: mockShows.slice(0, 2), // Use fewer shows to ensure no overflow
+          shows: mockShows.slice(0, 2),
         },
       })
 
-      await nextTick() // Wait for Vue to process updates after render
+      await nextTick()
 
-      // Check if buttons exist and assert their computed style
-      // Left button should not be found because showLeftButton is false initially
       const leftButton = screen.queryByRole('button', { name: /Scroll left/i })
       expect(leftButton).toBeNull()
 
-      // Find the right button using querySelector on the container
       const rightButton = container.querySelector('button[aria-label="Scroll right"]')
 
-      // Assert that the button exists in the DOM but has display: none
-      expect(rightButton).not.toBeNull() // Check if the element exists
+      expect(rightButton).not.toBeNull()
       expect((rightButton as HTMLElement)?.style.display).toBe('none')
     })
   })

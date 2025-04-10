@@ -25,11 +25,9 @@ describe('container', () => {
 
     await fireEvent.update(input, 'test query')
 
-    // Should not emit immediately
     const initialEmit = emitted()
     expect(initialEmit.search).toBeFalsy()
 
-    // Fast-forward time by debounce delay (500ms)
     vi.advanceTimersByTime(500)
     await nextTick()
 
@@ -44,7 +42,6 @@ describe('container', () => {
 
     await fireEvent.update(input, 'test')
 
-    // Fast-forward time by less than debounce delay
     vi.advanceTimersByTime(400)
     await nextTick()
 
@@ -56,7 +53,6 @@ describe('container', () => {
     const { getByTestId, emitted } = render(Container)
     const input = getByTestId('search-input')
 
-    // Type multiple queries rapidly
     await fireEvent.update(input, 'first')
     vi.advanceTimersByTime(200)
 
@@ -67,7 +63,6 @@ describe('container', () => {
     vi.advanceTimersByTime(500)
     await nextTick()
 
-    // Should only emit the final value
     const result = emitted()
     expect(result.search).toBeTruthy()
     expect(result.search?.length).toBe(1)
@@ -78,22 +73,16 @@ describe('container', () => {
     const { getByTestId, emitted } = render(Container)
     const input = getByTestId('search-input')
 
-    // First, set a non-empty value
     await fireEvent.update(input, 'test')
-    // Advance time slightly, but less than debounce delay
     vi.advanceTimersByTime(100)
     await nextTick()
 
-    // Now, clear the input
     await fireEvent.update(input, '')
-    // Advance timer past the debounce delay
     vi.advanceTimersByTime(500)
     await nextTick()
-    // Add another tick
     await nextTick()
 
     const result = emitted()
-    // Check that the event was emitted and the payload is ['']
     expect(result.search).toBeTruthy()
     expect(result.search?.[0]).toEqual([''])
   })

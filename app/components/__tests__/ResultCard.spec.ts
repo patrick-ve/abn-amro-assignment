@@ -65,25 +65,19 @@ describe('resultCard', () => {
         show: mockShowWithImageAndSummary,
       },
       global: {
-        // If you use Nuxt specific components like NuxtLink, stub them here
-        // stubs: { NuxtLink: true }
       },
     })
 
-    // Check image
     const img = wrapper.find('img')
     expect(img.exists()).toBe(true)
     expect(img.attributes('src')).toBe(mockShowWithImageAndSummary.image?.medium)
     expect(img.attributes('alt')).toBe(`${mockShowWithImageAndSummary.name} poster`)
     expect(wrapper.find('.placeholder-image').exists()).toBe(false)
 
-    // Check title
     expect(wrapper.find('h3').text()).toBe(mockShowWithImageAndSummary.name)
 
-    // Check rating
     expect(wrapper.find('.flex.items-center.text-xs').text()).toContain(mockShowWithImageAndSummary.rating.average?.toFixed(1))
 
-    // Check summary (using v-html)
     const summaryDiv = wrapper.find('.text-xs.text-gray-700.dark\\:text-gray-300.line-clamp-3')
     expect(summaryDiv.exists()).toBe(true)
     if (summaryDiv.exists()) {
