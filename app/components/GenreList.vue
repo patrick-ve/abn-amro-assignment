@@ -25,7 +25,7 @@ const showLeftButton = ref(false)
 const showRightButton = ref(false)
 const resizeObserver = ref<ResizeObserver | null>(null)
 const itemWidth = ref(0)
-const gap = 16 // 4 in Tailwind equals 16px
+const gap = 16
 
 function handleShowClick(showId: number) {
   emit('showSelected', showId)
@@ -41,7 +41,6 @@ function updateScrollButtons() {
   showLeftButton.value = scrollLeft > tolerance
   showRightButton.value = scrollLeft + clientWidth < scrollWidth - tolerance
 
-  // Hide buttons if content doesn't overflow
   if (scrollWidth <= clientWidth) {
     showLeftButton.value = false
     showRightButton.value = false
@@ -52,7 +51,6 @@ function scrollShows(direction: 'left' | 'right') {
   if (!showsContainer.value)
     return
 
-  // Calculate scroll amount based on visible items (approximately 3 items)
   const scrollAmount = (itemWidth.value + gap) * 3
   const targetScroll = showsContainer.value.scrollLeft + (direction === 'left' ? -scrollAmount : scrollAmount)
 
@@ -66,23 +64,18 @@ function setupScrollContainer() {
   if (!showsContainer.value)
     return
 
-  // Get the width of a single item
   const firstItem = showsContainer.value.querySelector('.show-card')
   if (firstItem)
     itemWidth.value = firstItem.clientWidth
 
-  // Initial check for overflow
   nextTick(() => {
     updateScrollButtons()
   })
 
-  // Add scroll listener
   showsContainer.value.addEventListener('scroll', updateScrollButtons)
 
-  // Setup resize observer
   resizeObserver.value = new ResizeObserver(() => {
     nextTick(() => {
-      // Update item width on resize
       const firstItem = showsContainer.value?.querySelector('.show-card')
       if (firstItem)
         itemWidth.value = firstItem.clientWidth
