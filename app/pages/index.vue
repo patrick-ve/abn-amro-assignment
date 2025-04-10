@@ -98,9 +98,9 @@ useHead({
     />
 
     <div class="container py-8 mx-auto">
-      <!-- <h1 class="mb-4 text-2xl font-bold text-white">
+      <h1 class="mb-4 text-2xl font-bold text-white">
         Movie Overview
-      </h1> -->
+      </h1>
 
       <LoadingSpinner v-if="loadingAllShows && !shows?.length" />
 

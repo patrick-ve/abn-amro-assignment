@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { useHead } from '#app'
 import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import ShowDetail from '~/components/ShowDetail.vue'
 import TheHeader from '~/components/TheHeader.vue'
 import { getCachedShowById, useFetchShowDetails } from '~/composables/useFetchShows'
 
 const route = useRoute()
-const router = useRouter()
 
 const showId = computed(() => {
   const id = route.params.id
@@ -21,10 +20,6 @@ const cachedShow = computed(() => {
 
 const { showDetails, loading, error } = useFetchShowDetails(showId)
 
-function goBack() {
-  router.back()
-}
-
 useHead(() => {
   const titleName = showDetails.value?.name ?? cachedShow.value?.name
   return {
@@ -36,9 +31,10 @@ useHead(() => {
 <template>
   <TheHeader>
     <template #left>
-      <button
+      <nuxt-link
+        aria-label="Back to shows overview"
         class="flex items-center text-white transition-colors cursor-pointer group hover:text-gray-300"
-        @click="goBack"
+        to="/"
       >
         <svg
           class="w-6 h-6 mr-2 transition-transform duration-200 ease-in-out group-hover:-translate-x-1"
@@ -55,7 +51,7 @@ useHead(() => {
           />
         </svg>
         <span class="hidden font-semibold md:block">Back to shows overview</span>
-      </button>
+      </nuxt-link>
     </template>
   </TheHeader>
 
