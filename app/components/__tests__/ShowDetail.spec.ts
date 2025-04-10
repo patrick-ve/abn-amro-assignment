@@ -71,9 +71,9 @@ describe('showDetail', () => {
         show: mockShow,
       },
     })
-    const img = wrapper.find('img')
+    const img = wrapper.find('[data-testid="show-poster-image"]')
     expect(img.exists()).toBe(true)
-    expect(img.attributes('src')).toBe(mockShow.image?.original)
+    expect(img.attributes('src')).toBe(mockShow.image?.medium)
     expect(img.attributes('alt')).toBe(`${mockShow.name} poster`)
   })
 
@@ -163,6 +163,7 @@ describe('showDetail', () => {
     })
     expect(screen.getByRole('article')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Breaking Bad' })).toBeInTheDocument()
-    expect(screen.getByRole('img', { name: 'Breaking Bad poster' })).toBeInTheDocument()
+    expect(screen.getByTestId('show-poster-image')).toBeInTheDocument()
+    expect(screen.getByTestId('show-poster-image')).toHaveAttribute('alt', 'Breaking Bad poster')
   })
 })

@@ -53,6 +53,7 @@ const cast = computed(() => props.show._embedded?.cast || [])
                 :alt="`${show.name} poster`"
                 class="object-cover w-full h-full rounded-lg shadow-2xl"
                 loading="lazy"
+                data-testid="show-poster-image"
               >
             </template>
             <div
