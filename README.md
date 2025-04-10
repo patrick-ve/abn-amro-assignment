@@ -130,3 +130,31 @@ npm run e2e:ui
 # Run E2E tests and update snapshots if they have changed
 npm run e2e:update
 ```
+
+## Architectural Choices & Assignment Alignment 🎯
+
+This project aims to fulfill the requirements of the ABN AMRO frontend developer assignment by demonstrating familiarity with modern frontend technologies, clean code practices, and testing methodologies.
+
+### Framework Choice: Nuxt 3 (Vue 3) ✨
+
+Nuxt 3 was chosen for this assignment due to several key advantages:
+
+- **Developer Experience:** Nuxt provides an excellent development experience with features like file-based routing, auto-imports for components and composables, and integrated TypeScript support, leading to faster development and cleaner code organization.
+- **Performance:** Built on Vite and Vue 3, Nuxt offers great performance characteristics, including server-side rendering (SSR) capabilities out-of-the-box, although this project primarily focuses on client-side rendering.
+- **Ecosystem:** Leveraging the Vue 3 ecosystem allows for the use of modern tools like Pinia (though not used here) and the Composition API, which enhances code reusability and maintainability (e.g., `useFetchShows`, `useDebounce`).
+- **Structure:** Nuxt's conventional directory structure (`pages/`, `components/`, `composables/`) naturally encourages modularity and separation of concerns, aligning with the assignment's focus on clean and reusable code.
+
+### Meeting Assignment Requirements ✅
+
+- **Core Functionality:** The application fetches TV show data from the TVMaze API (`composables/useFetchShows.ts`) and displays genre-based lists on the dashboard (`pages/index.vue`, `components/GenreList.vue`), with navigation to a detailed view (`pages/shows/[id].vue`, `components/Show/ShowDetail.vue`). Search functionality is also implemented (`components/Search/`).
+- **Responsiveness & UI:** [Tailwind CSS](https://tailwindcss.com/) is used for styling, ensuring a responsive and mobile-friendly design. The UI aims for a simple yet eye-catching aesthetic as requested. E2E tests specifically include checks on mobile viewport sizes.
+- **Clean Code & Best Practices:** The project emphasizes clean code through:
+  - **TypeScript:** For static typing and improved code quality.
+  - **Modularity:** Components (`components/`) and reusable logic (`composables/`) are well-defined.
+  - **Linting:** Enforced via ESLint (`@antfu/eslint-config`) and pre-commit hooks (Husky) to maintain code consistency.
+  - **Structure:** Follows Nuxt conventions for clear organization.
+- **Testing:** Comprehensive testing is included:
+  - **Unit Tests (Vitest):** Located in `app/components/__tests__`, covering individual components and composables (as required). Run with `npm run unit`.
+  - **End-to-End Tests (Playwright):** Located in `e2e/tests`, verifying key user flows (dashboard view, navigation to details, search) and accessibility checks across desktop and mobile browsers. Run with `npm run e2e`.
+- **Reusability:** Composables (`useFetchShows`, `useDebounce`) and a structured component library (`components/Base`, `components/Show`, `components/Search`) promote code reuse.
+- **Minimal Scaffolding:** While Nuxt provides a framework structure, the core components, logic, and UI styling represent original creation efforts rather than relying heavily on pre-built templates.
