@@ -42,7 +42,7 @@ const shortenedSummary = computed(() => {
           <span class="text-gray-600">No Image Available</span>
         </div>
         <div
-          class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"
+          class="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent"
         />
       </div>
 
@@ -71,16 +71,9 @@ const shortenedSummary = computed(() => {
           </div>
 
           <div class="flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <button class="inline-flex items-center justify-center w-full px-6 py-3 font-bold text-black transition-colors duration-200 bg-white rounded-md sm:w-auto hover:bg-white/90">
-              <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" /></svg>
-              Play
-            </button>
-            <button class="inline-flex items-center justify-center w-full px-6 py-3 font-medium text-white transition-colors duration-200 rounded-md sm:w-auto bg-gray-700/70 hover:bg-gray-600/70">
-              <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.5v15m7.5-7.5h-15" />
-              </svg>
-              My List
-            </button>
+            <nuxt-link :to="`/shows/${show.id}`" class="inline-flex items-center justify-center w-full px-6 py-3 font-bold text-black transition-colors duration-200 bg-white rounded-md sm:w-auto hover:bg-white/90">
+              More info
+            </nuxt-link>
           </div>
         </div>
       </div>
@@ -105,9 +98,9 @@ const shortenedSummary = computed(() => {
 
         <div class="pl-8 text-left md:w-2/3 lg:pl-12">
           <div>
-            <h2 class="mb-2 text-5xl font-extrabold tracking-tight text-white lg:text-6xl md:mb-4 drop-shadow-lg">
+            <h1 class="mb-2 text-5xl font-extrabold tracking-tight text-white lg:text-6xl md:mb-4 drop-shadow-lg">
               {{ show.name }}
-            </h2>
+            </h1>
 
             <div class="flex items-center mb-4 space-x-3 text-sm text-white/80">
               <div class="flex items-center gap-2">
@@ -132,19 +125,8 @@ const shortenedSummary = computed(() => {
             </div>
 
             <div class="flex items-center gap-3">
-              <button class="inline-flex items-center justify-center px-6 py-3 font-bold text-black transition-colors duration-200 bg-white rounded-md hover:bg-white/90">
-                <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" /></svg>
-                Play
-              </button>
-              <button class="inline-flex items-center justify-center px-6 py-3 font-medium text-white transition-colors duration-200 rounded-md bg-gray-700/70 hover:bg-gray-600/70">
-                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-                My List
-              </button>
-
               <nuxt-link
-                class="items-center hidden px-8 py-3 font-medium text-white transition-colors duration-200 rounded-md md:inline-flex bg-white/25 hover:bg-white/30"
+                class="items-center hidden px-8 py-3 font-bold text-black transition-colors duration-200 bg-white rounded-md md:inline-flex hover:bg-white/90"
                 :to="`/shows/${show.id}`"
               >
                 <svg
