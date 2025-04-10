@@ -46,7 +46,7 @@ const shortenedSummary = computed(() => {
         />
       </div>
 
-      <div class="relative z-10 container mx-auto px-4 pt-[50vh] pb-8 text-center">
+      <div class="relative z-10 container mx-auto px-4 pt-[25vh] md:pt-48 pb-8 text-center">
         <div>
           <div class="flex items-center justify-center gap-2 mb-2">
             <div class="px-2 py-1 text-xs font-bold text-white bg-red-600 rounded">
@@ -84,17 +84,17 @@ const shortenedSummary = computed(() => {
     </div>
 
     <div class="container hidden mx-auto md:block">
-      <div class="flex items-center min-h-[calc(70vh-5rem)]">
+      <div class="flex items-center min-h-[600px]">
         <div class="self-stretch flex-shrink-0 md:w-1/3">
           <img
             v-if="show.image"
             :src="show.image.original"
             :alt="`${show.name} poster`"
-            class="w-full h-full object-cover max-h-[calc(100vh-5rem)]"
+            class="w-full h-full object-cover max-h-[600px]"
           >
           <div
             v-else
-            class="placeholder-image w-full h-full bg-stone-900 flex items-center justify-center max-h-[calc(100vh-5rem)]"
+            class="placeholder-image w-full h-full bg-stone-900 flex items-center justify-center max-h-[600px]"
           >
             <span class="text-gray-600">No Image Available</span>
           </div>

@@ -97,7 +97,7 @@ useHead({
       @show-selected="handleShowSelected"
     />
 
-    <div class="container py-8 mx-auto">
+    <div class="container pb-8 mx-auto">
       <LoadingSpinner v-if="loadingAllShows && !shows?.length" />
 
       <ErrorMessage
