@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Show } from '~/types/show'
 import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
-import ShowCard from './ShowCard.vue'
+import ShowCard from './Show/Card.vue'
 
 const props = defineProps<{
   genre: string

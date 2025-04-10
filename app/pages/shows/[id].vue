@@ -2,7 +2,7 @@
 import { useHead } from '#app'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import ShowDetail from '~/components/ShowDetail.vue'
+import ShowDetail from '~/components/Show/Detail.vue'
 import TheHeader from '~/components/TheHeader.vue'
 import { getCachedShowById, useFetchShowDetails } from '~/composables/useFetchShows'
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Show } from '~/types/show'
 import { computed } from 'vue'
-import SearchResultCard from './Search/SearchResultCard.vue'
+import SearchResultCard from './SearchResultCard.vue'
 
 const props = defineProps<{
   isLoading: boolean
