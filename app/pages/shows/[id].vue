@@ -43,11 +43,11 @@ useHead(() => {
   <TheHeader>
     <template #left>
       <button
-        class="flex items-center text-white hover:text-gray-300 transition-colors cursor-pointer"
+        class="flex items-center text-white transition-colors cursor-pointer group hover:text-gray-300"
         @click="goBack"
       >
         <svg
-          class="h-6 w-6 mr-2"
+          class="w-6 h-6 mr-2 transition-transform duration-200 ease-in-out group-hover:-translate-x-1"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -57,10 +57,10 @@ useHead(() => {
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
-            d="M15 19l-7-7 7-7"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
           />
         </svg>
-        <span class="hidden md:block">Back to shows overview</span>
+        <span class="hidden font-semibold md:block">Back to shows overview</span>
       </button>
     </template>
   </TheHeader>
@@ -69,22 +69,22 @@ useHead(() => {
     <!-- Loading State -->
     <div
       v-if="loading"
-      class="flex justify-center items-center min-h-screen"
+      class="flex items-center justify-center min-h-screen"
     >
-      <div class="animate-spin rounded-full h-12 w-12 border-4 border-gray-300 border-t-blue-600" />
+      <div class="w-12 h-12 border-4 border-gray-300 rounded-full animate-spin border-t-blue-600" />
     </div>
 
     <!-- Error State -->
     <div
       v-else-if="error"
-      class="container mx-auto px-4 py-8"
+      class="container px-4 py-8 mx-auto"
     >
       <div class="text-center">
-        <p class="text-red-600 dark:text-red-400 mb-4">
+        <p class="mb-4 text-red-600 dark:text-red-400">
           {{ error }}
         </p>
         <button
-          class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+          class="px-4 py-2 text-white transition-colors bg-blue-600 rounded-md hover:bg-blue-700"
           @click="goBack"
         >
           Back to shows overview
@@ -102,14 +102,14 @@ useHead(() => {
     <!-- Not Found State -->
     <div
       v-else
-      class="container mx-auto px-4 py-8"
+      class="container px-4 py-8 mx-auto"
     >
       <div class="text-center">
-        <p class="text-gray-600 dark:text-gray-400 mb-4">
+        <p class="mb-4 text-gray-600 dark:text-gray-400">
           Show not found
         </p>
         <button
-          class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+          class="px-4 py-2 text-white transition-colors bg-blue-600 rounded-md hover:bg-blue-700"
           @click="goBack"
         >
           Back to shows overview
