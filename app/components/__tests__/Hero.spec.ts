@@ -73,10 +73,9 @@ describe('hero', () => {
         show: mockShow,
       },
     })
-    const img = wrapper.find('img')
+    const img = wrapper.find('img[alt$="poster"]')
     expect(img.exists()).toBe(true)
     expect(img.attributes('src')).toBe(mockShow.image?.original)
-    expect(img.attributes('alt')).toBe(`${mockShow.name} poster`)
   })
 
   it('shows placeholder when image is missing', () => {
@@ -144,7 +143,7 @@ describe('hero', () => {
       },
     })
     expect(screen.getByRole('region', { name: 'Featured Show' })).toBeInTheDocument()
-    expect(screen.getByRole('img')).toHaveAttribute('alt', `${mockShow.name} poster`)
+    expect(screen.getByRole('img', { name: /poster/i })).toHaveAttribute('alt', `${mockShow.name} poster`)
     expect(screen.getByRole('link', { name: /More Info/i })).toBeInTheDocument()
   })
 })

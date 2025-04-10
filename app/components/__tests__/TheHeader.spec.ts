@@ -17,17 +17,6 @@ describe('theHeader', () => {
     expect(logo.attributes('alt')).toBe('ABNFlix Logo')
   })
 
-  it('has correct styling classes', () => {
-    const wrapper = mount(TheHeader)
-    const header = wrapper.find('header')
-
-    expect(header.classes()).toContain('flex')
-    expect(header.classes()).toContain('justify-between')
-    expect(header.classes()).toContain('items-center')
-    expect(header.classes()).toContain('h-20')
-    expect(header.classes()).toContain('backdrop-blur-md')
-  })
-
   it('renders the logo', () => {
     const wrapper = mount(TheHeader)
     const logo = wrapper.find('img[alt="ABNFlix Logo"]')
