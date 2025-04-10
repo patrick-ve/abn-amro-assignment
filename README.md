@@ -33,6 +33,13 @@ npm run lint
 npm run typecheck
 ```
 
+### Recommended VS Code Extensions 🧑‍💻
+
+For an optimal development experience, I recommend installing the following VS Code extensions:
+
+- **[Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)**: Provides autocompletion, linting, syntax highlighting, and documentation for Tailwind CSS.
+- **[Headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)**: An opinionated class sorter for Tailwind CSS that automatically enforces a consistent order for your classes.
+
 ## Application Structure (`app/`) 📁
 
 The `app/` directory contains the core of the Nuxt 3 application, following standard conventions:
