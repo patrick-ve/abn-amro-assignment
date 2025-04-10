@@ -118,14 +118,14 @@ onUnmounted(() => {
     :aria-label="`${genre} shows`"
     class="py-6 genre-list"
   >
-    <h2 class="px-4 mb-4 text-2xl font-bold text-white/80 dark:text-white">
+    <h2 class="px-4 mb-4 text-2xl font-bold text-white/90 dark:text-white">
       {{ genre }}
     </h2>
 
     <div class="relative group">
       <button
         v-show="showLeftButton"
-        class="absolute top-0 bottom-0 left-0 z-20 flex items-center justify-center w-12 text-white transition-all duration-200 rounded-r-lg opacity-0 bg-black/50 hover:bg-black/80 backdrop-blur-sm group-hover:opacity-100"
+        class="absolute top-0 bottom-0 left-0 z-20 flex items-center justify-center w-12 text-white transition-all duration-200 rounded-r-lg opacity-0 bg-stone-900/80 hover:bg-stone-900/80 backdrop-blur-sm group-hover:opacity-100"
         :class="{ 'cursor-not-allowed opacity-0': !showLeftButton }"
         aria-label="Scroll left"
         @click="scrollShows('left')"
@@ -153,7 +153,7 @@ onUnmounted(() => {
 
         <button
           v-show="showRightButton"
-          class="absolute top-0 bottom-0 right-0 z-20 flex items-center justify-center w-12 text-white transition-all duration-200 rounded-l-lg opacity-0 bg-black/50 hover:bg-black/80 backdrop-blur-sm group-hover:opacity-100"
+          class="absolute top-0 bottom-0 right-0 z-20 flex items-center justify-center w-12 text-white transition-all duration-200 rounded-l-lg opacity-0 bg-stone-900/80 hover:bg-stone-900 backdrop-blur-sm group-hover:opacity-100"
           :class="{ 'cursor-not-allowed opacity-0': !showRightButton }"
           aria-label="Scroll right"
           @click="scrollShows('right')"

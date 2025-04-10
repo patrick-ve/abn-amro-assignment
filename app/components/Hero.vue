@@ -25,7 +25,7 @@ const shortenedSummary = computed(() => {
   <section
     data-testid="hero-section"
     aria-label="Featured Show"
-    class="relative pt-20 text-white bg-black"
+    class="relative pt-20 text-white bg-stone-900"
   >
     <div class="md:hidden">
       <div class="absolute inset-0 top-4 md:top-20">
@@ -37,7 +37,7 @@ const shortenedSummary = computed(() => {
         >
         <div
           v-else
-          class="placeholder-image w-full h-[calc(100%-5rem)] bg-gray-900 flex items-center justify-center"
+          class="placeholder-image w-full h-[calc(100%-5rem)] bg-stone-900 flex items-center justify-center"
         >
           <span class="text-gray-600">No Image Available</span>
         </div>
@@ -61,7 +61,7 @@ const shortenedSummary = computed(() => {
             {{ show.name }}
           </h2>
 
-          <div class="flex items-center justify-center mb-4 space-x-3 text-xs text-white/80">
+          <div class="flex items-center justify-center mb-4 space-x-3 text-xs text-white/90">
             <div class="flex items-center text-lg">
               <span class="mr-1 text-yellow-500">★</span>
               <span class="font-medium">{{ show.rating.average ?? 'N/A' }}</span>
@@ -90,7 +90,7 @@ const shortenedSummary = computed(() => {
           >
           <div
             v-else
-            class="placeholder-image w-full h-full bg-gray-900 flex items-center justify-center max-h-[calc(100vh-5rem)]"
+            class="placeholder-image w-full h-full bg-stone-900 flex items-center justify-center max-h-[calc(100vh-5rem)]"
           >
             <span class="text-gray-600">No Image Available</span>
           </div>
@@ -102,7 +102,7 @@ const shortenedSummary = computed(() => {
               {{ show.name }}
             </h1>
 
-            <div class="flex items-center mb-4 space-x-3 text-sm text-white/80">
+            <div class="flex items-center mb-4 space-x-3 text-sm text-white/90">
               <div class="flex items-center gap-2">
                 <div class="px-2 py-1 text-xs font-bold text-white bg-red-600 rounded">
                   TOP 10
@@ -120,7 +120,7 @@ const shortenedSummary = computed(() => {
               <span class="text-lg">{{ show.genres.join(' • ') }}</span>
             </div>
 
-            <div class="mb-6 text-white/80 md:mb-8 max-w-[60ch] text-pretty">
+            <div class="mb-6 text-white/90 md:mb-8 max-w-[60ch] text-pretty">
               {{ shortenedSummary }}
             </div>
 

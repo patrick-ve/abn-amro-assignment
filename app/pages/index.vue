@@ -64,7 +64,7 @@ useHead({
 </script>
 
 <template>
-  <div class="min-h-screen bg-black dark:bg-gray-900">
+  <div class="min-h-screen bg-stone-900">
     <TheHeader>
       <template #right>
         <button

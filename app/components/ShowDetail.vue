@@ -26,7 +26,7 @@ const networkInfo = computed(() => {
 </script>
 
 <template>
-  <article class="text-white bg-black show-detail">
+  <article class="text-white bg-stone-900 show-detail">
     <div class="container px-4 py-8 mx-auto sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">
         <div class="lg:col-span-1 aspect-w-2 aspect-h-3">

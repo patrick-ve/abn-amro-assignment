@@ -2,7 +2,7 @@
   <div>
     <TheHeader />
 
-    <main class="pt-12 bg-black">
+    <main class="pt-12 bg-stone-900">
       <slot />
     </main>
   </div>
