@@ -15,7 +15,7 @@ test.describe('Index Page', () => {
     const heroSection = page.locator('[data-testid="hero-section"]')
     await expect(heroSection).toBeVisible()
 
-    const heroTitle = heroSection.locator('h2:visible')
+    const heroTitle = heroSection.locator('h1:visible')
     await expect(heroTitle).toBeVisible()
     await expect(heroTitle).not.toBeEmpty()
   })

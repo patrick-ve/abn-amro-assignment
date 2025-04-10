@@ -57,9 +57,9 @@ const shortenedSummary = computed(() => {
             </div>
           </div>
 
-          <h2 class="mb-2 text-3xl font-extrabold tracking-tight text-white drop-shadow-lg">
+          <h1 class="mb-2 text-3xl font-extrabold tracking-tight text-white drop-shadow-lg">
             {{ show.name }}
-          </h2>
+          </h1>
 
           <div class="flex items-center justify-center mb-4 space-x-3 text-xs text-white/90">
             <div class="flex items-center text-lg">
