@@ -1,11 +1,11 @@
 import { cleanup, fireEvent, render } from '@testing-library/vue'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
-import SearchContainer from '../Search/SearchContainer.vue'
+import Container from '../Search/Container.vue'
 
 vi.useFakeTimers()
 
-describe('searchContainer', () => {
+describe('container', () => {
   beforeEach(() => {
     vi.clearAllTimers()
   })
@@ -13,14 +13,14 @@ describe('searchContainer', () => {
   afterEach(cleanup)
 
   it('renders the search input with correct placeholder', () => {
-    const { getByTestId } = render(SearchContainer)
+    const { getByTestId } = render(Container)
     const input = getByTestId('search-input')
 
     expect(input).toHaveAttribute('placeholder', 'Search shows by title, genre, or description')
   })
 
   it('emits search event after debounce delay', async () => {
-    const { getByTestId, emitted } = render(SearchContainer)
+    const { getByTestId, emitted } = render(Container)
     const input = getByTestId('search-input')
 
     await fireEvent.update(input, 'test query')
@@ -39,7 +39,7 @@ describe('searchContainer', () => {
   })
 
   it('does not emit search event before debounce delay', async () => {
-    const { getByTestId, emitted } = render(SearchContainer)
+    const { getByTestId, emitted } = render(Container)
     const input = getByTestId('search-input')
 
     await fireEvent.update(input, 'test')
@@ -53,7 +53,7 @@ describe('searchContainer', () => {
   })
 
   it('handles rapid input changes correctly', async () => {
-    const { getByTestId, emitted } = render(SearchContainer)
+    const { getByTestId, emitted } = render(Container)
     const input = getByTestId('search-input')
 
     // Type multiple queries rapidly
@@ -75,7 +75,7 @@ describe('searchContainer', () => {
   })
 
   it('handles empty input correctly', async () => {
-    const { getByTestId, emitted } = render(SearchContainer)
+    const { getByTestId, emitted } = render(Container)
     const input = getByTestId('search-input')
 
     // First, set a non-empty value

@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import SearchResults from '../Search/List.vue'
+import ResultCard from '../Search/ResultCard.vue'
 
 const mockShows: Show[] = [
   {
@@ -92,8 +93,13 @@ describe('searchResults', () => {
         shows: mockShows,
         error: null,
       },
+      global: {
+        stubs: {
+          ResultCard: true,
+        },
+      },
     })
-    const showCards = wrapper.findAllComponents({ name: 'SearchResultCard' })
+    const showCards = wrapper.findAllComponents(ResultCard)
     expect(showCards).toHaveLength(mockShows.length)
   })
 
@@ -115,8 +121,13 @@ describe('searchResults', () => {
         shows: mockShows,
         error: null,
       },
+      global: {
+        stubs: {
+          ResultCard: true,
+        },
+      },
     })
-    const firstShowCard = wrapper.findComponent({ name: 'SearchResultCard' })
+    const firstShowCard = wrapper.findComponent(ResultCard)
     expect(firstShowCard.exists()).toBe(true)
 
     await firstShowCard.trigger('click')
@@ -149,8 +160,13 @@ describe('searchResults', () => {
         shows: [...mockShows].reverse(),
         error: null,
       },
+      global: {
+        stubs: {
+          ResultCard: true,
+        },
+      },
     })
-    const showCards = wrapper.findAllComponents({ name: 'SearchResultCard' })
+    const showCards = wrapper.findAllComponents(ResultCard)
 
     expect(showCards.length).toBe(mockShows.length)
     expect(showCards.length).toBe(2)

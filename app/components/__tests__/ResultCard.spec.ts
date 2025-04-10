@@ -1,12 +1,7 @@
 import type { Show } from '../../types/show'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import SearchResultCard from '../Search/SearchResultCard.vue'
-
-// Mock the NuxtImage component if needed, or configure Vitest to stub it globally
-// For simplicity, we'll assume basic rendering or use a simple img tag here.
-// If <NuxtImage> causes issues, configure stubbing in your vitest.config.ts:
-// vue: { template: { compilerOptions: { isCustomElement: (tag) => tag === 'NuxtImage' } } }
+import ResultCard from '../Search/ResultCard.vue'
 
 const mockShowWithImageAndSummary: Show = {
   id: 1,
@@ -31,7 +26,6 @@ const mockShowWithImageAndSummary: Show = {
     officialSite: 'http://network.example.com',
   },
   webChannel: null,
-  dvdCountry: null,
   externals: { tvrage: 123, thetvdb: 456, imdb: 'tt1234567' },
   image: { medium: 'http://example.com/medium.jpg', original: 'http://example.com/original.jpg' },
   summary: '<p>This is a <b>test summary</b>.</p>',
@@ -55,9 +49,8 @@ const mockShowMinimal: Show = {
   schedule: { time: '', days: [] },
   rating: { average: null },
   weight: 50,
-  network: undefined,
+  network: null,
   webChannel: null,
-  dvdCountry: null,
   externals: { tvrage: null, thetvdb: null, imdb: null },
   image: null,
   summary: null,
@@ -65,9 +58,9 @@ const mockShowMinimal: Show = {
   _links: { self: { href: 'http://api.example.com/shows/2' } },
 }
 
-describe('searchResultCard', () => {
+describe('resultCard', () => {
   it('renders show details correctly when all data is present', () => {
-    const wrapper = mount(SearchResultCard, {
+    const wrapper = mount(ResultCard, {
       props: {
         show: mockShowWithImageAndSummary,
       },
@@ -99,7 +92,7 @@ describe('searchResultCard', () => {
   })
 
   it('renders placeholder image when show image is missing', () => {
-    const wrapper = mount(SearchResultCard, {
+    const wrapper = mount(ResultCard, {
       props: {
         show: mockShowMinimal,
       },
@@ -112,7 +105,7 @@ describe('searchResultCard', () => {
   })
 
   it('renders N/A rating when show rating is missing', () => {
-    const wrapper = mount(SearchResultCard, {
+    const wrapper = mount(ResultCard, {
       props: {
         show: mockShowMinimal,
       },
@@ -121,7 +114,7 @@ describe('searchResultCard', () => {
   })
 
   it('renders "No summary available" when show summary is missing', () => {
-    const wrapper = mount(SearchResultCard, {
+    const wrapper = mount(ResultCard, {
       props: {
         show: mockShowMinimal,
       },
