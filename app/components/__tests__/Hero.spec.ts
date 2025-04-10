@@ -35,7 +35,6 @@ const mockShow: Show = {
     officialSite: 'https://www.amc.com',
   },
   webChannel: null,
-  dvdCountry: null,
   externals: {
     tvrage: 18164,
     thetvdb: 81189,
@@ -52,7 +51,6 @@ const mockShow: Show = {
     },
     previousepisode: {
       href: 'https://api.tvmaze.com/episodes/2017',
-      name: 'Felina',
     },
   },
 }
@@ -144,6 +142,6 @@ describe('hero', () => {
     })
     expect(screen.getByRole('region', { name: 'Featured Show' })).toBeInTheDocument()
     expect(screen.getByRole('img', { name: /poster/i })).toHaveAttribute('alt', `${mockShow.name} poster`)
-    expect(screen.getByRole('link', { name: /More Info/i })).toBeInTheDocument()
+    expect(screen.getByTestId('hero-link-desktop')).toBeInTheDocument()
   })
 })

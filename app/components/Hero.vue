@@ -71,8 +71,12 @@ const shortenedSummary = computed(() => {
           </div>
 
           <div class="flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <nuxt-link :to="`/shows/${show.id}`" class="inline-flex items-center justify-center w-full px-6 py-3 font-bold text-black transition-colors duration-200 bg-white rounded-md sm:w-auto hover:bg-white/90">
-              More info
+            <nuxt-link
+              data-testid="hero-link-mobile"
+              :to="`/shows/${show.id}`"
+              class="inline-flex items-center justify-center w-full px-6 py-3 font-bold text-black transition-colors duration-200 bg-white rounded-md sm:w-auto hover:bg-white/90"
+            >
+              More Info
             </nuxt-link>
           </div>
         </div>
@@ -126,6 +130,7 @@ const shortenedSummary = computed(() => {
 
             <div class="flex items-center gap-3">
               <nuxt-link
+                data-testid="hero-link-desktop"
                 class="items-center hidden px-8 py-3 font-bold text-black transition-colors duration-200 bg-white rounded-md md:inline-flex hover:bg-white/90"
                 :to="`/shows/${show.id}`"
               >
