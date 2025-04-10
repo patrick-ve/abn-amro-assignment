@@ -1,5 +1,11 @@
 # ABN AMRO Assignment: "ABNFLIX" 🎬
 
+## Deployment 🚀
+
+A live version of this application is deployed and accessible here:
+
+[https://abn-amro-assignment.onrender.com/](https://abn-amro-assignment.onrender.com/)
+
 ## Development Setup 🛠️
 
 ### Prerequisites ✅
