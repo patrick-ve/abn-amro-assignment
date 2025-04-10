@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Show } from '~/types/show'
 import { computed } from 'vue'
-import SearchResultCard from './SearchResultCard.vue'
+import ResultCard from './ResultCard.vue'
 
 const props = defineProps<{
   isLoading: boolean
@@ -65,7 +65,7 @@ function handleShowClick(showId: number) {
         v-if="shows.length"
         class="flex flex-col space-y-4"
       >
-        <SearchResultCard
+        <ResultCard
           v-for="show in sortedShows"
           :key="show.id"
           :show="show"

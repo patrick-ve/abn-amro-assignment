@@ -7,8 +7,8 @@ import LoadingSpinner from '~/components/Base/LoadingSpinner.vue'
 import BaseModal from '~/components/Base/Modal.vue'
 import GenreList from '~/components/GenreList.vue'
 import Hero from '~/components/Hero.vue'
+import Container from '~/components/Search/Container.vue'
 import SearchResults from '~/components/Search/List.vue'
-import SearchContainer from '~/components/Search/SearchContainer.vue'
 import TheHeader from '~/components/TheHeader.vue'
 import { useFetchAllShows, useSearchShows } from '~/composables/useFetchShows'
 
@@ -121,7 +121,7 @@ useHead({
 
     <BaseModal v-model="isSearchModalOpen">
       <template #search-bar>
-        <SearchContainer @search="handleSearch" />
+        <Container @search="handleSearch" />
       </template>
       <template #results>
         <LoadingSpinner v-if="loadingSearch && isSearchModalOpen" />
