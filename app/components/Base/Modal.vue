@@ -23,7 +23,7 @@ function closeModal() {
           <slot name="search-bar" />
         </div>
 
-        <div class="p-4 h-[70vh] md:max-h-[70vh] overflow-y-auto">
+        <div class="results-container">
           <slot name="results" />
         </div>
       </div>
