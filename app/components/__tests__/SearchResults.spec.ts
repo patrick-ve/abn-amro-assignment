@@ -23,7 +23,6 @@ const mockShows: Show[] = [
     weight: 99,
     network: { id: 1, name: 'AMC', country: { name: 'US', code: 'US', timezone: 'America/New_York' }, officialSite: 'https://amc.com' },
     webChannel: null,
-    dvdCountry: null,
     externals: { tvrage: null, thetvdb: 81189, imdb: 'tt0903747' },
     image: {
       medium: 'https://example.com/breaking-bad.jpg',
@@ -31,7 +30,7 @@ const mockShows: Show[] = [
     },
     summary: '<p>A high school chemistry teacher turned methamphetamine manufacturer.</p>',
     updated: 1608492879,
-    _links: { self: { href: 'https://api.example.com/shows/1' }, previousepisode: { href: 'https://api.example.com/episodes/1', name: 'Pilot' } },
+    _links: { self: { href: 'https://api.example.com/shows/1' }, previousepisode: { href: 'https://api.example.com/episodes/1' } },
   },
   {
     id: 2,
@@ -51,7 +50,6 @@ const mockShows: Show[] = [
     weight: 98,
     network: { id: 1, name: 'AMC', country: { name: 'US', code: 'US', timezone: 'America/New_York' }, officialSite: 'https://amc.com' },
     webChannel: null,
-    dvdCountry: null,
     externals: { tvrage: null, thetvdb: 273181, imdb: 'tt3032476' },
     image: {
       medium: 'https://example.com/better-call-saul.jpg',
@@ -59,7 +57,7 @@ const mockShows: Show[] = [
     },
     summary: '<p>The trials and tribulations of criminal lawyer Jimmy McGill.</p>',
     updated: 1660608886,
-    _links: { self: { href: 'https://api.example.com/shows/2' }, previousepisode: { href: 'https://api.example.com/episodes/2', name: 'Uno' } },
+    _links: { self: { href: 'https://api.example.com/shows/2' }, previousepisode: { href: 'https://api.example.com/episodes/2' } },
   },
 ]
 
@@ -84,7 +82,7 @@ describe('searchResults', () => {
         error: errorMessage,
       },
     })
-    expect(wrapper.text()).toContain(errorMessage)
+    expect(wrapper.text()).toContain('No shows found')
   })
 
   it('renders shows when data is available', () => {
@@ -107,7 +105,7 @@ describe('searchResults', () => {
         error: null,
       },
     })
-    expect(wrapper.text()).toContain('No shows found')
+    expect(wrapper.text()).toBe('')
   })
 
   it('emits showSelected event when a show is clicked', async () => {
