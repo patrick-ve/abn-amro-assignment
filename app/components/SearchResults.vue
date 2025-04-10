@@ -38,7 +38,7 @@ function handleShowClick(showId: number) {
     >
       <div
         data-testid="loading-spinner"
-        class="animate-spin rounded-full h-12 w-12 border-4 border-gray-300 border-t-blue-600"
+        class="w-12 h-12 border-4 border-gray-300 rounded-full animate-spin border-t-blue-600"
       />
     </div>
 

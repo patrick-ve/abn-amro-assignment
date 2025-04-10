@@ -116,21 +116,21 @@ onUnmounted(() => {
   <section
     :data-testid="`genre-list-${genre}`"
     :aria-label="`${genre} shows`"
-    class="genre-list py-6"
+    class="py-6 genre-list"
   >
-    <h2 class="text-2xl font-bold mb-4 text-white/80 dark:text-white px-4">
+    <h2 class="px-4 mb-4 text-2xl font-bold text-white/80 dark:text-white">
       {{ genre }}
     </h2>
 
     <div class="relative group">
       <button
         v-show="showLeftButton"
-        class="absolute left-0 top-0 bottom-0 z-20 w-12 flex items-center justify-center bg-black/50 hover:bg-black/80 text-white rounded-r-lg transition-all duration-200 backdrop-blur-sm opacity-0 group-hover:opacity-100"
+        class="absolute top-0 bottom-0 left-0 z-20 flex items-center justify-center w-12 text-white transition-all duration-200 rounded-r-lg opacity-0 bg-black/50 hover:bg-black/80 backdrop-blur-sm group-hover:opacity-100"
         :class="{ 'cursor-not-allowed opacity-0': !showLeftButton }"
         aria-label="Scroll left"
         @click="scrollShows('left')"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
       </button>
@@ -138,14 +138,14 @@ onUnmounted(() => {
       <template v-if="shows.length">
         <div
           ref="showsContainer"
-          class="shows-container overflow-x-auto pb-4 scroll-smooth relative"
+          class="relative pb-4 overflow-x-auto shows-container scroll-smooth"
         >
           <div class="flex gap-4 px-4">
             <ShowCard
               v-for="show in sortedShows"
               :key="show.id"
               :show="show"
-              class="show-card flex-none transition-transform duration-200 hover:scale-105"
+              class="flex-none transition-transform duration-200 show-card hover:scale-105"
               @click="handleShowClick(show.id)"
             />
           </div>
@@ -153,19 +153,19 @@ onUnmounted(() => {
 
         <button
           v-show="showRightButton"
-          class="absolute right-0 top-0 bottom-0 z-20 w-12 flex items-center justify-center bg-black/50 hover:bg-black/80 text-white rounded-l-lg transition-all duration-200 backdrop-blur-sm opacity-0 group-hover:opacity-100"
+          class="absolute top-0 bottom-0 right-0 z-20 flex items-center justify-center w-12 text-white transition-all duration-200 rounded-l-lg opacity-0 bg-black/50 hover:bg-black/80 backdrop-blur-sm group-hover:opacity-100"
           :class="{ 'cursor-not-allowed opacity-0': !showRightButton }"
           aria-label="Scroll right"
           @click="scrollShows('right')"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
           </svg>
         </button>
       </template>
       <div
         v-else
-        class="text-gray-500 dark:text-gray-400 px-4"
+        class="px-4 text-gray-500 dark:text-gray-400"
       >
         No shows available
       </div>

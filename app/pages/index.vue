@@ -14,14 +14,11 @@ import { useFetchAllShows, useSearchShows } from '~/composables/useFetchShows'
 
 const isSearchModalOpen = ref(false)
 
-// Fetch all shows (immediate: true by default in the composable)
 const { shows, loading: loadingAllShows, error: errorAllShows } = useFetchAllShows()
 
-// Setup search composable (uses manual state and $fetch internally)
 const { searchResults, loading: loadingSearch, error: errorSearch, search } = useSearchShows()
 
-// Ref for the search query input (could be passed down to SearchContainer)
-const currentSearchQuery = ref('') // Needed for debouncing or watching
+const currentSearchQuery = ref('')
 
 const randomShow = computed<Show | null>(() => {
   if (!shows.value.length)
@@ -44,18 +41,15 @@ const showsByGenre = computed<GroupedShows>(() => {
 })
 
 async function handleSearch(query: string) {
-  currentSearchQuery.value = query // Update the ref
-  // The actual search execution can be triggered directly,
-  // or via a watcher on currentSearchQuery (e.g., with debounce)
-  await search(query) // Call the search function from the composable
+  currentSearchQuery.value = query
+  await search(query)
 }
 
 function toggleSearchModal() {
   isSearchModalOpen.value = !isSearchModalOpen.value
   if (!isSearchModalOpen.value) {
     searchResults.value = []
-    currentSearchQuery.value = '' // Clear search query on close
-    // Clear search error/loading? The composable handles this internally on next search
+    currentSearchQuery.value = ''
   }
 }
 
@@ -75,7 +69,7 @@ useHead({
       <template #right>
         <button
           data-testid="search-button"
-          class="p-2 rounded-full hover:bg-white/10 transition-colors"
+          class="p-2 transition-colors rounded-full hover:bg-white/10"
           :aria-label="isSearchModalOpen ? 'Close search modal' : 'Open search modal'"
           @click="toggleSearchModal"
         >
@@ -103,10 +97,10 @@ useHead({
       @show-selected="handleShowSelected"
     />
 
-    <div class="container mx-auto py-8">
-      <h1 class="text-2xl font-bold text-white mb-4">
+    <div class="container py-8 mx-auto">
+      <!-- <h1 class="mb-4 text-2xl font-bold text-white">
         Movie Overview
-      </h1>
+      </h1> -->
 
       <LoadingSpinner v-if="loadingAllShows && !shows?.length" />
 
@@ -117,7 +111,7 @@ useHead({
 
       <div
         v-else
-        class="space-y-8"
+        class="space-y-0"
       >
         <GenreList
           v-for="(genreShows, genre) in showsByGenre"

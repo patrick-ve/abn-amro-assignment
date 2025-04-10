@@ -57,7 +57,7 @@ defineExpose({
     <label
       v-if="label"
       :for="inputId"
-      class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+      class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300"
     >
       {{ label }}
     </label>

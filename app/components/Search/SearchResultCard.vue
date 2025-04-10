@@ -8,39 +8,37 @@ defineProps<{
 
 <template>
   <article
-    class="search-result-card flex items-start space-x-4 p-4 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer bg-white dark:bg-gray-800"
+    class="flex items-start p-4 space-x-4 overflow-hidden transition-shadow duration-300 bg-white rounded-lg shadow-md cursor-pointer search-result-card hover:shadow-lg dark:bg-gray-800"
   >
-    <!-- Adjusted image size for list view -->
     <div class="flex-shrink-0 w-20 h-30">
       <div class="aspect-[2/3] relative rounded overflow-hidden">
         <img
           v-if="show.image"
           :src="show.image.medium"
           :alt="`${show.name} poster`"
-          class="w-full h-full object-cover"
+          class="object-cover w-full h-full"
           loading="lazy"
         >
         <div
           v-else
-          class="placeholder-image w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-center"
+          class="flex items-center justify-center w-full h-full text-center bg-gray-200 placeholder-image dark:bg-gray-700"
         >
-          <span class="text-gray-400 dark:text-gray-500 text-xs">No Image</span>
+          <span class="text-xs text-gray-400 dark:text-gray-500">No Image</span>
         </div>
       </div>
     </div>
 
     <div class="flex-grow min-w-0">
-      <!-- Adjusted font size -->
-      <h3 class="text-base font-semibold mb-1 truncate text-gray-900 dark:text-white">
+      <h3 class="mb-1 text-base font-semibold text-gray-900 truncate dark:text-white">
         {{ show.name }}
       </h3>
-      <!-- Adjusted font size -->
-      <div class="flex items-center text-xs text-gray-600 dark:text-gray-400 mb-2">
+
+      <div class="flex items-center mb-2 text-xs text-gray-600 dark:text-gray-400">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          class="w-4 h-4 text-yellow-500 mr-1 flex-shrink-0"
+          class="flex-shrink-0 w-4 h-4 mr-1 text-yellow-500"
         >
           <path
             fill-rule="evenodd"
@@ -50,14 +48,14 @@ defineProps<{
         </svg>
         <span>{{ show.rating.average ? show.rating.average.toFixed(1) : 'N/A' }}</span>
       </div>
-      <!-- Adjusted font size -->
+
       <div
         v-if="show.summary"
         class="text-xs text-gray-700 dark:text-gray-300 line-clamp-3"
         v-html="show.summary"
       />
-      <!-- Adjusted font size -->
-      <div v-else class="text-xs text-gray-500 dark:text-gray-400 italic">
+
+      <div v-else class="text-xs italic text-gray-500 dark:text-gray-400">
         No summary available.
       </div>
     </div>

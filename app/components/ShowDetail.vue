@@ -26,28 +26,28 @@ const networkInfo = computed(() => {
 </script>
 
 <template>
-  <article class="show-detail bg-black text-white">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+  <article class="text-white bg-black show-detail">
+    <div class="container px-4 py-8 mx-auto sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">
         <div class="lg:col-span-1 aspect-w-2 aspect-h-3">
           <template v-if="show.image">
             <img
               :src="show.image.original"
               :alt="`${show.name} poster`"
-              class="w-full h-full object-cover rounded-lg shadow-lg"
+              class="object-cover w-full h-full rounded-lg shadow-lg"
               loading="lazy"
             >
           </template>
           <div
             v-else
-            class="placeholder-image w-full h-full bg-gray-800 rounded-lg flex items-center justify-center"
+            class="flex items-center justify-center w-full h-full bg-gray-800 rounded-lg placeholder-image"
           >
             <span class="text-gray-500">No Image Available</span>
           </div>
         </div>
 
         <div class="lg:col-span-2">
-          <h1 class="text-4xl sm:text-5xl font-bold text-white mb-4">
+          <h1 class="mb-4 text-4xl font-bold text-white sm:text-5xl">
             {{ show.name }}
           </h1>
 
@@ -56,33 +56,33 @@ const networkInfo = computed(() => {
               <span
                 v-for="genre in show.genres"
                 :key="genre"
-                class="px-3 py-1 bg-gray-700 text-gray-200 rounded-full text-sm font-medium"
+                class="px-3 py-1 text-sm font-medium text-gray-200 bg-gray-700 rounded-full"
               >
                 {{ genre }}
               </span>
             </div>
 
-            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-lg">
+            <div class="flex flex-wrap items-center text-lg gap-x-4 gap-y-2">
               <div class="flex items-center">
-                <span class="text-yellow-400 mr-1 text-xl">★</span>
+                <span class="mr-1 text-xl text-yellow-400">★</span>
                 <span class="text-gray-300">{{ show.rating.average ?? 'N/A' }}</span>
               </div>
-              <span class="text-gray-500 hidden sm:inline">|</span>
+              <span class="hidden text-gray-500 sm:inline">|</span>
               <span class="text-gray-300">{{ show.type }}</span>
-              <span class="text-gray-500 hidden sm:inline">|</span>
+              <span class="hidden text-gray-500 sm:inline">|</span>
               <span class="text-gray-300">{{ show.language }}</span>
             </div>
 
             <div class="mt-6">
-              <h2 class="text-2xl font-semibold text-white mb-2">
+              <h2 class="mb-2 text-2xl font-semibold text-white">
                 Summary
               </h2>
-              <p class="text-gray-300 leading-relaxed">
+              <p class="leading-relaxed text-gray-300">
                 {{ formattedSummary }}
               </p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 text-gray-300 mt-6">
+            <div class="grid grid-cols-1 mt-6 text-gray-300 sm:grid-cols-2 gap-x-8 gap-y-4">
               <p>
                 <strong>Network:</strong> {{ networkInfo }}
               </p>
@@ -107,7 +107,7 @@ const networkInfo = computed(() => {
                   :href="show.officialSite"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-blue-500 underline hover:text-blue-400 transition-colors"
+                  class="text-blue-500 underline transition-colors hover:text-blue-400"
                 >
                   Visit Website
                 </a>

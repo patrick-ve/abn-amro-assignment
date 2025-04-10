@@ -9,7 +9,7 @@ defineProps<{
 <template>
   <article
     :data-testid="`show-card-${show.id}`"
-    class="show-card relative rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer bg-white dark:bg-gray-800"
+    class="relative overflow-hidden transition-shadow duration-300 bg-white rounded-lg shadow-lg cursor-pointer show-card hover:shadow-xl dark:bg-gray-800"
   >
     <nuxt-link :to="`/shows/${show.id}`">
       <div class="aspect-[2/3] relative">
@@ -17,12 +17,12 @@ defineProps<{
           <img
             :src="show.image.medium"
             :alt="`${show.name} poster`"
-            class="w-full h-full object-cover"
+            class="object-cover w-full h-full"
           >
         </template>
         <div
           v-else
-          class="placeholder-image w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center"
+          class="flex items-center justify-center w-full h-full bg-gray-200 placeholder-image dark:bg-gray-700"
         >
           <span class="text-gray-400">No Image</span>
         </div>

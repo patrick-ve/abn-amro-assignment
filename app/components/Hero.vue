@@ -27,9 +27,7 @@ const shortenedSummary = computed(() => {
     aria-label="Featured Show"
     class="relative pt-20 text-white bg-black"
   >
-    <!-- Mobile Layout -->
     <div class="md:hidden">
-      <!-- Mobile Background Image with Gradient -->
       <div class="absolute inset-0 top-4 md:top-20">
         <img
           v-if="show.image"
@@ -48,10 +46,8 @@ const shortenedSummary = computed(() => {
         />
       </div>
 
-      <!-- Mobile Content Area -->
       <div class="relative z-10 container mx-auto px-4 pt-[50vh] pb-8 text-center">
         <div>
-          <!-- Mobile only: TOP 10 -->
           <div class="flex items-center justify-center gap-2 mb-2">
             <div class="px-2 py-1 text-xs font-bold text-white bg-red-600 rounded">
               TOP 10
@@ -65,7 +61,6 @@ const shortenedSummary = computed(() => {
             {{ show.name }}
           </h2>
 
-          <!-- Mobile Meta Info -->
           <div class="flex items-center justify-center mb-4 space-x-3 text-xs text-white/80">
             <div class="flex items-center text-lg">
               <span class="mr-1 text-yellow-500">★</span>
@@ -75,7 +70,6 @@ const shortenedSummary = computed(() => {
             <span class="text-lg">{{ show.genres.join(' • ') }}</span>
           </div>
 
-          <!-- Mobile Action Buttons -->
           <div class="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <button class="inline-flex items-center justify-center w-full px-6 py-3 font-bold text-black transition-colors duration-200 bg-white rounded-md sm:w-auto hover:bg-white/90">
               <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" /></svg>
@@ -92,10 +86,8 @@ const shortenedSummary = computed(() => {
       </div>
     </div>
 
-    <!-- Desktop Layout -->
     <div class="container hidden mx-auto md:block">
       <div class="flex items-center min-h-[calc(70vh-5rem)]">
-        <!-- Desktop Image -->
         <div class="self-stretch flex-shrink-0 md:w-1/3">
           <img
             v-if="show.image"
@@ -111,14 +103,12 @@ const shortenedSummary = computed(() => {
           </div>
         </div>
 
-        <!-- Desktop Content Area -->
         <div class="pl-8 text-left md:w-2/3 lg:pl-12">
           <div>
             <h2 class="mb-2 text-5xl font-extrabold tracking-tight text-white lg:text-6xl md:mb-4 drop-shadow-lg">
               {{ show.name }}
             </h2>
 
-            <!-- Desktop Meta Info -->
             <div class="flex items-center mb-4 space-x-3 text-sm text-white/80">
               <div class="flex items-center gap-2">
                 <div class="px-2 py-1 text-xs font-bold text-white bg-red-600 rounded">
@@ -137,12 +127,10 @@ const shortenedSummary = computed(() => {
               <span class="text-lg">{{ show.genres.join(' • ') }}</span>
             </div>
 
-            <!-- Summary -->
             <div class="mb-6 text-white/80 md:mb-8 max-w-[60ch] text-pretty">
               {{ shortenedSummary }}
             </div>
 
-            <!-- Desktop Action Buttons -->
             <div class="flex items-center gap-3">
               <button class="inline-flex items-center justify-center px-6 py-3 font-bold text-black transition-colors duration-200 bg-white rounded-md hover:bg-white/90">
                 <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" /></svg>
@@ -154,7 +142,7 @@ const shortenedSummary = computed(() => {
                 </svg>
                 My List
               </button>
-              <!-- More info link, could be shown on desktop -->
+
               <nuxt-link
                 v-if="false" class="items-center hidden px-8 py-3 font-medium text-white transition-colors duration-200 rounded-md md:inline-flex bg-white/25 hover:bg-white/30"
                 :to="`/shows/${show.id}`"

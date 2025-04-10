@@ -9,28 +9,22 @@ import { getCachedShowById, useFetchShowDetails } from '~/composables/useFetchSh
 const route = useRoute()
 const router = useRouter()
 
-// Reactive ref for the show ID from the route param
 const showId = computed(() => {
   const id = route.params.id
-  // Ensure it's a number or return undefined/null if invalid
   return typeof id === 'string' ? Number.parseInt(id, 10) : (typeof id === 'number' ? id : undefined)
 })
 
-// Attempt to get the basic show info from cache immediately
 const cachedShow = computed(() => {
   const id = showId.value
   return id !== undefined ? getCachedShowById(id) : undefined
 })
 
-// Fetch full details. This will still run.
 const { showDetails, loading, error } = useFetchShowDetails(showId)
 
-// Handle back button click
 function goBack() {
   router.back()
 }
 
-// Update page title using cached info first, then full details
 useHead(() => {
   const titleName = showDetails.value?.name ?? cachedShow.value?.name
   return {
@@ -66,7 +60,6 @@ useHead(() => {
   </TheHeader>
 
   <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-    <!-- Loading State -->
     <div
       v-if="loading"
       class="flex items-center justify-center min-h-screen"
@@ -74,7 +67,6 @@ useHead(() => {
       <div class="w-12 h-12 border-4 border-gray-300 rounded-full animate-spin border-t-blue-600" />
     </div>
 
-    <!-- Error State -->
     <div
       v-else-if="error"
       class="container px-4 py-8 mx-auto"
@@ -92,14 +84,12 @@ useHead(() => {
       </div>
     </div>
 
-    <!-- Show Details -->
     <ShowDetail
       v-else-if="showDetails"
       :show="showDetails"
       @close="goBack"
     />
 
-    <!-- Not Found State -->
     <div
       v-else
       class="container px-4 py-8 mx-auto"
