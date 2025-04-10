@@ -23,7 +23,7 @@ const { showDetails, loading, error } = useFetchShowDetails(showId)
 useHead(() => {
   const titleName = showDetails.value?.name ?? cachedShow.value?.name
   return {
-    title: titleName ? `${titleName} - TV Shows` : (loading.value ? 'Loading...' : 'Show Details'),
+    title: titleName ? `ABNFLIX - ${titleName} - TV Shows` : (loading.value ? 'ABNFLIX - Loading...' : 'ABNFLIX - Show Details'),
   }
 })
 </script>
