@@ -133,7 +133,7 @@ onUnmounted(() => {
           ref="showsContainer"
           class="relative pb-4 overflow-x-auto shows-container scroll-smooth"
         >
-          <div class="flex gap-4 px-4">
+          <ul class="flex gap-4 px-4">
             <ShowCard
               v-for="show in sortedShows"
               :key="show.id"
@@ -141,7 +141,7 @@ onUnmounted(() => {
               class="flex-none transition-transform duration-200 show-card hover:scale-105"
               @click="handleShowClick(show.id)"
             />
-          </div>
+          </ul>
         </div>
 
         <button
