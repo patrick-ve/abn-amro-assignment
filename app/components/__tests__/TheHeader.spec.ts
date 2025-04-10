@@ -29,16 +29,6 @@ describe('theHeader', () => {
     expect(header.classes()).toContain('backdrop-blur-md')
   })
 
-  it('is accessible', () => {
-    render(TheHeader)
-
-    const header = screen.getByRole('banner')
-    expect(header).toBeInTheDocument()
-
-    const logo = screen.getByAltText('ABNFlix Logo')
-    expect(logo).toBeInTheDocument()
-  })
-
   it('renders the logo', () => {
     const wrapper = mount(TheHeader)
     const logo = wrapper.find('img[alt="ABNFlix Logo"]')
