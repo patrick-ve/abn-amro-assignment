@@ -19,9 +19,8 @@ const { shows, loading: loadingAllShows, error: errorAllShows } = useFetchAllSho
 const { searchResults, loading: loadingSearch, error: errorSearch, search } = useSearchShows()
 
 const currentSearchQuery = ref('')
-
 const randomShow = computed<Show | null>(() => {
-  if (!shows.value.length)
+  if (!shows.value?.length)
     return null
   const index = Math.floor(Math.random() * shows.value.length)
   return shows.value[index] ?? null
@@ -29,7 +28,7 @@ const randomShow = computed<Show | null>(() => {
 
 const showsByGenre = computed<GroupedShows>(() => {
   const grouped: GroupedShows = {}
-  shows.value.forEach((show) => {
+  shows.value?.forEach((show) => {
     show.genres.forEach((genre) => {
       if (!grouped[genre]) {
         grouped[genre] = []

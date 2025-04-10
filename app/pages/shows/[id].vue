@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useHead } from '#app'
+import { navigateTo, useHead } from '#app'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import ShowDetail from '~/components/Show/Detail.vue'
@@ -18,7 +18,7 @@ const cachedShow = computed(() => {
   return id !== undefined ? getCachedShowById(id) : undefined
 })
 
-const { showDetails, loading, error } = useFetchShowDetails(showId)
+const { showDetails, loading, error } = useFetchShowDetails(computed(() => showId.value ?? ''))
 
 useHead(() => {
   const titleName = showDetails.value?.name ?? cachedShow.value?.name
@@ -26,6 +26,10 @@ useHead(() => {
     title: titleName ? `ABNFLIX - ${titleName} - TV Shows` : (loading.value ? 'ABNFLIX - Loading...' : 'ABNFLIX - Show Details'),
   }
 })
+
+function goBack() {
+  navigateTo('/')
+}
 </script>
 
 <template>
