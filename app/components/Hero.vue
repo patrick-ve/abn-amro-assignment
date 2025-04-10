@@ -144,7 +144,7 @@ const shortenedSummary = computed(() => {
               </button>
 
               <nuxt-link
-                v-if="false" class="items-center hidden px-8 py-3 font-medium text-white transition-colors duration-200 rounded-md md:inline-flex bg-white/25 hover:bg-white/30"
+                class="items-center hidden px-8 py-3 font-medium text-white transition-colors duration-200 rounded-md md:inline-flex bg-white/25 hover:bg-white/30"
                 :to="`/shows/${show.id}`"
               >
                 <svg
