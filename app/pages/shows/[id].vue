@@ -60,7 +60,7 @@ useHead(() => {
             d="M15 19l-7-7 7-7"
           />
         </svg>
-        Back to shows overview
+        <span class="hidden md:block">Back to shows overview</span>
       </button>
     </template>
   </TheHeader>
