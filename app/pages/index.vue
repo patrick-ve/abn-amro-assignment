@@ -59,7 +59,7 @@ function handleShowSelected(showId: number) {
 }
 
 useHead({
-  title: 'Overview Page',
+  title: 'ABNFLIX - Shows Overview Page',
 })
 </script>
 
