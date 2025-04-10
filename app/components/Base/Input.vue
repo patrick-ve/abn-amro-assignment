@@ -26,6 +26,7 @@ const emit = defineEmits<{
 }>()
 
 const inputId = computed(() => props.id || `input-${Math.random().toString(36).slice(2)}`)
+const errorId = computed(() => props.error ? `error-${inputId.value}` : undefined)
 
 function handleInput(event: Event) {
   const target = event.target as HTMLInputElement
@@ -79,6 +80,7 @@ defineExpose({
             : 'border-gray-300 dark:border-gray-600',
           disabled ? 'bg-gray-100 cursor-not-allowed' : 'bg-white dark:bg-gray-700',
         ]"
+        :aria-describedby="errorId"
         @input="handleInput"
       >
       <slot />
@@ -86,6 +88,7 @@ defineExpose({
 
     <p
       v-if="error"
+      :id="errorId"
       class="mt-1 text-sm text-red-600 dark:text-red-400"
     >
       {{ error }}
