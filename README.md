@@ -139,9 +139,9 @@ This project aims to fulfill the requirements of the ABN AMRO frontend developer
 
 Nuxt 3 was chosen for this assignment due to several key advantages:
 
-- **Developer Experience:** Nuxt provides an excellent development experience with features like file-based routing, auto-imports for components and composables, and integrated TypeScript support, leading to faster development and cleaner code organization.
-- **Performance:** Built on Vite and Vue 3, Nuxt offers great performance characteristics, including server-side rendering (SSR) capabilities out-of-the-box, although this project primarily focuses on client-side rendering.
-- **Ecosystem:** Leveraging the Vue 3 ecosystem allows for the use of modern tools like Pinia (though not used here) and the Composition API, which enhances code reusability and maintainability (e.g., `useFetchShows`, `useDebounce`).
+- **Developer Experience:** Nuxt provides an excellent development experience. Notably, its **file-based routing** automatically generates routes from the `pages/` directory structure, eliminating the need for manual router configuration common in other frameworks. Features like auto-imports (though explicitly disabled in this project for clarity, see below), and integrated TypeScript support further streamline development and improve code organization.
+- **Performance:** Built on Vite and Vue 3, Nuxt offers great performance characteristics, including server-side rendering (SSR) capabilities out-of-the-box (though `ssr: false` is set in this project).
+- **Ecosystem & State Management:** Leveraging the Vue 3 ecosystem allows for the use of the **Composition API**, which enhances code reusability and maintainability. For state management, this project opts for **composable functions** (`useFetchShows`, `useDebounce`) to handle specific stateful logic rather than incorporating a global state management library like Pinia. This choice was made due to the relatively contained state requirements of the application, favoring a more localized approach.
 - **Structure:** Nuxt's conventional directory structure (`pages/`, `components/`, `composables/`) naturally encourages modularity and separation of concerns, aligning with the assignment's focus on clean and reusable code.
 
 ### Meeting Assignment Requirements ✅
@@ -153,6 +153,7 @@ Nuxt 3 was chosen for this assignment due to several key advantages:
   - **Modularity:** Components (`components/`) and reusable logic (`composables/`) are well-defined.
   - **Linting:** Enforced via ESLint (`@antfu/eslint-config`) and pre-commit hooks (Husky) to maintain code consistency.
   - **Structure:** Follows Nuxt conventions for clear organization.
+  - **Explicit Imports:** Auto-imports for components and composables have been disabled (`imports: { autoImport: false }` in `nuxt.config.ts`) to favor explicit import statements. This enhances code clarity and reduces potential confusion for developers less familiar with the Nuxt ecosystem.
 - **Testing:** Comprehensive testing is included:
   - **Unit Tests (Vitest):** Located in `app/components/__tests__`, covering individual components and composables (as required). Run with `npm run unit`.
   - **End-to-End Tests (Playwright):** Located in `e2e/tests`, verifying key user flows (dashboard view, navigation to details, search) and accessibility checks across desktop and mobile browsers. Run with `npm run e2e`.
